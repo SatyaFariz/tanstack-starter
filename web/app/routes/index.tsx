@@ -1,9 +1,9 @@
 // app/routes/index.tsx
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Home,
-})
+});
 
 function Home() {
 
@@ -11,10 +11,10 @@ function Home() {
     <button
       type="button"
       onClick={() => {
-        alert('Hello, world!')
+        alert('Hello, world!');
       }}
     >
       Click me!
     </button>
-  )
+  );
 }
