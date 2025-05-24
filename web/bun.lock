@@ -15,6 +15,7 @@
         "react-dom": "^19.1.0",
         "tailwindcss": "^4.1.7",
         "vinxi": "^0.5.6",
+        "zod": "^3.25.28",
       },
       "devDependencies": {
         "@stylistic/eslint-plugin-ts": "^4.0.1",
