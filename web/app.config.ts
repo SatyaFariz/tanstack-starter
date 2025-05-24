@@ -1,6 +1,7 @@
 // app.config.ts
 import { defineConfig } from '@tanstack/react-start/config';
 import tsConfigPaths from 'vite-tsconfig-paths';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   server: {
@@ -8,6 +9,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [
+      svgr(),
       tsConfigPaths({
         projects: ['./tsconfig.json'],
       }),
