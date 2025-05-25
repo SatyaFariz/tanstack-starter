@@ -41,7 +41,7 @@ const meta = {
       control: { type: 'select' },
       options: ['default', 'valid', 'invalid'],
     },
-    requirementLabel: {
+    requirementIndicator: {
       control: { type: 'select' },
       options: ['none', 'required', 'optional'],
     },
@@ -115,7 +115,7 @@ export const Required: Story = {
   args: {
     label: 'Email',
     placeholder: 'Enter your email',
-    requirementLabel: 'required',
+    requirementIndicator: 'required',
     startAdornment: <EmailIcon />,
   },
 };
@@ -124,7 +124,7 @@ export const Optional: Story = {
   args: {
     label: 'Phone Number',
     placeholder: 'Enter your phone number',
-    requirementLabel: 'optional',
+    requirementIndicator: 'optional',
   },
 };
 
@@ -175,7 +175,7 @@ export const PasswordField: Story = {
     placeholder: 'Enter your password',
     startAdornment: <LockIcon />,
     endAdornment: <EyeIcon />,
-    requirementLabel: 'required',
+    requirementIndicator: 'required',
   },
 };
 
@@ -187,7 +187,7 @@ export const LoginForm: Story = {
         type="email"
         placeholder="Enter your email"
         startAdornment={<EmailIcon />}
-        requirementLabel="required"
+        requirementIndicator="required"
         validationState="invalid"
         errorMessage="Please enter a valid email address"
       />
@@ -197,7 +197,7 @@ export const LoginForm: Story = {
         placeholder="Enter your password"
         startAdornment={<LockIcon />}
         endAdornment={<EyeIcon />}
-        requirementLabel="required"
+        requirementIndicator="required"
       />
     </div>
   ),

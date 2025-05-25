@@ -5,7 +5,7 @@ import cn from '@/utils/cn';
 import { TextField, Label, Input, FieldError, Text } from 'react-aria-components';
 
 type ValidationState = 'default' | 'valid' | 'invalid';
-type RequirementLabel = 'required' | 'optional' | 'none';
+type RequirementIndicator = 'required' | 'optional' | 'none';
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -17,7 +17,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  requirementLabel?: RequirementLabel;
+  requirementIndicator?: RequirementIndicator;
 }
 
 export default function TextInput({
@@ -30,7 +30,7 @@ export default function TextInput({
   fullWidth = true,
   startAdornment,
   endAdornment,
-  requirementLabel = 'none',
+  requirementIndicator = 'none',
   required,
   disabled,
   value,
@@ -46,7 +46,7 @@ export default function TextInput({
   return (
     <TextField
       className={cn('w-full', !fullWidth && 'w-auto')}
-      isRequired={required || requirementLabel === 'required'}
+      isRequired={required || requirementIndicator === 'required'}
       isDisabled={disabled}
       isInvalid={validationState === 'invalid'}
       value={value}
@@ -60,10 +60,10 @@ export default function TextInput({
           validationState === 'invalid' ? 'text-red-600' : 'text-primary',
         )}>
           {label}
-          {requirementLabel === 'required' && (
+          {requirementIndicator === 'required' && (
             <span className="text-red-500 ml-1">*</span>
           )}
-          {requirementLabel === 'optional' && (
+          {requirementIndicator === 'optional' && (
             <span className="text-gray-400 ml-1">(optional)</span>
           )}
         </Label>

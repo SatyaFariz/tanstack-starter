@@ -23,8 +23,8 @@ function Home() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          requirementLabel="required"
-          validationState="invalid"
+          requirementIndicator="required"
+          // validationState="invalid"
           errorMessage="Please enter a valid email address"
           description="Your email will not be shared with anyone."
         />
