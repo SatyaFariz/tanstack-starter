@@ -12,7 +12,7 @@ function Home() {
     <div className="flex items-center justify-center h-dvh">
       <div className="flex flex-col gap-4">
         <Button
-          onClick={() => {
+          onPress={() => {
             alert('Hello, world!');
           }}
         >

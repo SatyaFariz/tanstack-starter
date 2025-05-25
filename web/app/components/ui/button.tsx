@@ -1,8 +1,11 @@
 import type React from 'react';
 import cn from '@/utils/cn';
-import { Button as RAButton } from 'react-aria-components';
+import { Button as RAButton, type PressEvent } from 'react-aria-components';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<React.RefAttributes<HTMLButtonElement>, 'onClick'> {
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
   variant?: 'primary' | 'outline' | 'secondary' | 'text';
@@ -10,7 +13,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg';
-  value?: string | undefined; // Adjusted to match RAButton's expected value type
+  value?: string; // Adjusted to match RAButton's expected value type
+  onPress?: (e: PressEvent) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,10 +27,6 @@ const Button: React.FC<ButtonProps> = ({
   size = 'md',
   className,
   disabled,
-  onClick,
-  onFocus,
-  onBlur,
-  formAction,
   ...props
 }) => {
   const baseClasses = 'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
@@ -78,17 +78,8 @@ const Button: React.FC<ButtonProps> = ({
         widthClasses,
         className,
       )}
-      isDisabled={disabled || loading}
-      onPress={onClick ? (e) => onClick(e as unknown as React.MouseEvent<HTMLButtonElement>) : undefined}
-      onFocus={onFocus ? (e) => onFocus(e as React.FocusEvent<HTMLButtonElement>) : undefined}
-      onFocusChange={(isFocused) => {
-        if (isFocused && onFocus) {
-          onFocus({} as React.FocusEvent<HTMLButtonElement>);
-        } else if (!isFocused && onBlur) {
-          onBlur({} as React.FocusEvent<HTMLButtonElement>);
-        }
-      }}
-      formAction={typeof formAction === 'string' ? formAction : undefined}
+      isDisabled={disabled}
+      isPending={loading}
       {...props}
     >
       {loading ? (
