@@ -1,5 +1,7 @@
 // app/routes/index.tsx
 import { createFileRoute } from '@tanstack/react-router';
+import Button from '@/components/ui/button';
+import TextField from '@/components/ui/textfield';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -7,15 +9,26 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   return (
-    <div>
-      <button
-        onClick={() => {
-          alert('Hello, world!');
-        }}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Click Me
-      </button>
+    <div className="flex items-center justify-center h-dvh">
+      <div className="flex flex-col gap-4">
+        <Button
+          onClick={() => {
+            alert('Hello, world!');
+          }}
+        >
+          Click Me
+        </Button>
+
+        <TextField
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          requirementLabel="required"
+          validationState="invalid"
+          errorMessage="Please enter a valid email address"
+          description="Your email will not be shared with anyone."
+        />
+        </div>
     </div>
   );
 }
