@@ -51,7 +51,6 @@ export default function TextInput({
       isInvalid={validationState === 'invalid'}
       value={value}
       defaultValue={defaultValue}
-      onChange={onChange ? (value: string) => onChange({ target: { value } } as React.ChangeEvent<HTMLInputElement>) : undefined}
       name={name}
     >
       {label && (
@@ -94,6 +93,7 @@ export default function TextInput({
             'disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed',
             className,
           )}
+          onChange={onChange}
           {...props}
         />
 
