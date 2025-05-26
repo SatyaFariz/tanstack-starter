@@ -24,7 +24,7 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'outline', 'secondary', 'text'],
+      options: ['primary', 'outlined', 'secondary', 'text'],
     },
     size: {
       control: { type: 'select' },
@@ -58,7 +58,7 @@ export const Primary: Story = {
 export const Outline: Story = {
   args: {
     children: 'Outline Button',
-    variant: 'outline',
+    variant: 'outlined',
   },
 };
 
@@ -132,7 +132,7 @@ export const LoadingWithVariants = {
       <Button variant="primary" loading>
         Primary Loading
       </Button>
-      <Button variant="outline" loading>
+      <Button variant="outlined" loading>
         Outline Loading
       </Button>
       <Button variant="secondary" loading>
@@ -166,7 +166,7 @@ export const AllVariants = {
   render: () => (
     <div className="flex gap-4 flex-wrap">
       <Button variant="primary">Primary</Button>
-      <Button variant="outline">Outline</Button>
+      <Button variant="outlined">Outline</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="text">Text</Button>
     </div>
@@ -204,7 +204,7 @@ export const FormButtons = {
       <Button type="submit" variant="primary">
         Submit
       </Button>
-      <Button type="reset" variant="outline">
+      <Button type="reset" variant="outlined">
         Reset
       </Button>
       <Button type="button" variant="text">
