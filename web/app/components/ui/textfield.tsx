@@ -2,11 +2,11 @@
 
 import type React from 'react';
 import cn from '@/utils/cn';
-import { TextField, Label, Input, FieldError, Text } from 'react-aria-components';
+import { TextField as RATextField, Label, Input, FieldError, Text } from 'react-aria-components';
 
 type RequirementIndicator = 'required' | 'optional' | 'none';
 
-interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>, React.RefAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
   defaultValue?: string;
@@ -19,7 +19,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   requirementIndicator?: RequirementIndicator;
 }
 
-export default function TextInput({
+export default function TextField({
   label,
   type = 'text',
   className,
@@ -41,9 +41,9 @@ export default function TextInput({
   name,
   id,
   ...props
-}: TextInputProps) {
+}: TextFieldProps) {
   return (
-    <TextField
+    <RATextField
       className={cn('w-full', !fullWidth && 'w-auto')}
       isRequired={required || requirementIndicator === 'required'}
       isDisabled={disabled}
@@ -117,6 +117,6 @@ export default function TextInput({
           {errorMessage}
         </FieldError>
       )}
-    </TextField>
+    </RATextField>
   );
 }
