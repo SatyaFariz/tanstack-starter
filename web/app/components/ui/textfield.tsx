@@ -67,9 +67,15 @@ export default function TextInput({
         </Label>
       )}
 
-      <div className="relative">
+      <div className={cn(
+        'flex items-center border rounded-md bg-white',
+        isInvalid
+          ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
+          : 'border-divider focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
+        'disabled:bg-gray-100',
+      )}>
         {startAdornment && (
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400 z-10">
+          <div className="flex items-center pl-3 text-gray-400 pointer-events-none">
             {startAdornment}
           </div>
         )}
@@ -81,26 +87,23 @@ export default function TextInput({
           onFocus={onFocus}
           onBlur={onBlur}
           className={cn(
-            'w-full py-2.5 border rounded-md focus:outline-none bg-white',
-            startAdornment ? 'pl-10' : 'pl-3',
-            endAdornment ? 'pr-10' : 'pr-3',
-            isInvalid
-              ? 'border-red-500 text-red-600 focus:ring-1 focus:ring-red-500 focus:border-red-500'
-              : 'border-divider text-primary focus:ring-1 focus:ring-primary/30 focus:border-primary/30',
-            'disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed',
+            'flex-1 py-2.5 bg-transparent border-0 focus:outline-none focus:ring-0',
+            startAdornment ? 'pl-2' : 'pl-3',
+            endAdornment ? 'pr-2' : 'pr-3',
+            isInvalid ? 'text-red-600' : 'text-primary',
+            'disabled:text-gray-400 disabled:cursor-not-allowed',
+            'placeholder:text-gray-400',
             className,
           )}
           onChange={onChange}
           {...props}
         />
 
-        <div className="absolute inset-y-0 right-0 flex items-center gap-1">
-          {endAdornment && (
-            <div className="flex items-center pr-3 text-gray-400">
-              {endAdornment}
-            </div>
-          )}
-        </div>
+        {endAdornment && (
+          <div className="flex items-center pr-3 text-gray-400">
+            {endAdornment}
+          </div>
+        )}
       </div>
 
       {description && (

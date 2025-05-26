@@ -24,7 +24,8 @@ function Home() {
           type="email"
           placeholder="Enter your email"
           requirementIndicator="required"
-          startAdornment={<span className="text-gray-400">$</span>}
+          // startAdornment={<span className="text-gray-400">$</span>}
+          // endAdornment={<span className="text-gray-400">kg</span>}
           errorMessage="Please enter a valid email address"
           description="Your email will not be shared with anyone."
         />
