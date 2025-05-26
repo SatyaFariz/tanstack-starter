@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import Button from '@/components/ui/button';
 import TextField from '@/components/ui/textfield';
 import { useRef } from 'react';
+import Chip from '@/components/ui/chip';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -32,7 +33,15 @@ function Home() {
           errorMessage="Please enter a valid email address"
           description="Your email will not be shared with anyone."
         />
+
+        <div className="flex gap-2 flex-wrap max-w-md">
+          <Chip label="All" variant="solid" />
+          <Chip label="Frontend" variant="outlined" />
+          <Chip label="Backend" variant="outlined" />
+          <Chip label="Mobile" variant="outlined" />
+          <Chip label="DevOps" variant="outlined" />
         </div>
+      </div>
     </div>
   );
 }

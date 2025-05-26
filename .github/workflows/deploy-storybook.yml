@@ -1,0 +1,34 @@
+name: Deploy Storybook to GitHub Pages
+
+on:
+  push:
+    branches: [master]  # Change if you use a different default branch
+
+jobs:
+  deploy:
+    if: github.repository == 'SatyaFariz/tanstack-starter' # 👈 change to match the correct GitHub repo
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web  # Set working directory to your web folder
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/storybook-static
