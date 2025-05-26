@@ -32,8 +32,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./web/storybook-static
-          # 👇 Force push to current repo (boilerplate)
-          external_repository: ${{ github.repository }}
-          publish_branch: gh-pages
-          user_name: github-actions
-          user_email: github-actions@github.com
