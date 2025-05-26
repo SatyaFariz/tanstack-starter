@@ -1,20 +1,21 @@
 import type React from 'react';
 import cn from '@/utils/cn';
-import { Button as RAButton, type PressEvent } from 'react-aria-components';
+import { Button as ButtonBase, type PressEvent } from 'react-aria-components';
 
-interface ButtonProps extends Omit<React.RefAttributes<HTMLButtonElement>, 'onClick'> {
-  className?: string;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  children: React.ReactNode;
+interface ButtonProps extends Omit<React.RefAttributes<HTMLButtonElement>, 'onClick'>,
+                              Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   fullWidth?: boolean;
   variant?: 'primary' | 'outline' | 'secondary' | 'text';
   loading?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg';
-  value?: string; // Adjusted to match RAButton's expected value type
+  formAction?: string;
+  value?: string;
   onPress?: (e: PressEvent) => void;
+  onFocus?: (e: React.FocusEvent<Element, Element>) => void;
+  onBlur?: (e: React.FocusEvent<Element, Element>) => void;
+  onFocusChange?: (isFocused: boolean) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -70,7 +71,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 
   return (
-    <RAButton
+    <ButtonBase
       className={cn(
         baseClasses,
         sizeClasses[size],
@@ -94,7 +95,7 @@ const Button: React.FC<ButtonProps> = ({
           {endIcon && <span className="shrink-0">{endIcon}</span>}
         </>
       )}
-    </RAButton>
+    </ButtonBase>
   );
 };
 
