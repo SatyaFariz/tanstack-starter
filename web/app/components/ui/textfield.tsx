@@ -23,7 +23,6 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>,
 
 function TextField({
   label,
-  type = 'text',
   className,
   isInvalid = false,
   errorMessage,
@@ -36,12 +35,7 @@ function TextField({
   disabled,
   value,
   defaultValue,
-  onChange,
-  onFocus,
-  onBlur,
-  placeholder,
   name,
-  id,
   ref,
   ...props
 }: TextFieldProps) {
@@ -103,11 +97,6 @@ function TextField({
 
         <Input
           ref={inputRef}
-          id={id}
-          type={type}
-          placeholder={placeholder}
-          onFocus={onFocus}
-          onBlur={onBlur}
           className={cn(
             'flex-1 py-2.5 bg-transparent border-0 focus:outline-none focus:ring-0',
             startAdornment ? 'pl-2' : 'pl-3',
@@ -117,7 +106,6 @@ function TextField({
             'placeholder:text-gray-400',
             className,
           )}
-          onChange={onChange}
           {...props}
         />
 
