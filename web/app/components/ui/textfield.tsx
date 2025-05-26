@@ -1,12 +1,14 @@
 'use client';
 
 import type React from 'react';
+import { useRef } from 'react';
 import cn from '@/utils/cn';
-import { TextField as RATextField, Label, Input, FieldError, Text } from 'react-aria-components';
+import { TextField, Label, Input, FieldError, Text } from 'react-aria-components';
 
 type RequirementIndicator = 'required' | 'optional' | 'none';
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>, React.RefAttributes<HTMLInputElement> {
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement>,
+                                 React.RefAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
   defaultValue?: string;
@@ -19,7 +21,7 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>, Re
   requirementIndicator?: RequirementIndicator;
 }
 
-export default function TextField({
+function TextInput({
   label,
   type = 'text',
   className,
@@ -40,10 +42,25 @@ export default function TextField({
   placeholder,
   name,
   id,
+  ref,
   ...props
-}: TextFieldProps) {
+}: TextInputProps) {
+  const internalRef = useRef<HTMLInputElement>(null);
+
+  // Combine internal ref with forwarded ref
+  const inputRef = (node: HTMLInputElement | null) => {
+    if (internalRef.current !== node) {
+      internalRef.current = node;
+    }
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+
   return (
-    <RATextField
+    <TextField
       className={cn('w-full', !fullWidth && 'w-auto')}
       isRequired={required || requirementIndicator === 'required'}
       isDisabled={disabled}
@@ -75,12 +92,17 @@ export default function TextField({
         'disabled:bg-gray-100',
       )}>
         {startAdornment && (
-          <div className="flex items-center pl-3 text-gray-400 pointer-events-none">
+          <div
+            className="flex items-center pl-3 text-gray-400 cursor-text"
+            onClick={() => internalRef.current?.focus()}
+            aria-hidden="true"
+          >
             {startAdornment}
           </div>
         )}
 
         <Input
+          ref={inputRef}
           id={id}
           type={type}
           placeholder={placeholder}
@@ -100,7 +122,11 @@ export default function TextField({
         />
 
         {endAdornment && (
-          <div className="flex items-center pr-3 text-gray-400">
+          <div
+            className="flex items-center pr-3 text-gray-400 cursor-text"
+            onClick={() => internalRef.current?.focus()}
+            aria-hidden="true"
+          >
             {endAdornment}
           </div>
         )}
@@ -117,6 +143,8 @@ export default function TextField({
           {errorMessage}
         </FieldError>
       )}
-    </RATextField>
+    </TextField>
   );
 }
+
+export default TextInput;
