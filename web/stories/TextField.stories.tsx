@@ -37,9 +37,8 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    validationState: {
-      control: { type: 'select' },
-      options: ['default', 'valid', 'invalid'],
+    isInvalid: {
+      control: { type: 'boolean' },
     },
     requirementIndicator: {
       control: { type: 'select' },
@@ -141,20 +140,10 @@ export const InvalidState: Story = {
   args: {
     label: 'Email',
     placeholder: 'Enter your email',
-    validationState: 'invalid',
+    isInvalid: true,
     errorMessage: 'Please enter a valid email address',
     startAdornment: <EmailIcon />,
     defaultValue: 'invalid-email',
-  },
-};
-
-export const ValidState: Story = {
-  args: {
-    label: 'Email',
-    placeholder: 'Enter your email',
-    validationState: 'valid',
-    startAdornment: <EmailIcon />,
-    defaultValue: 'user@example.com',
   },
 };
 
@@ -188,7 +177,7 @@ export const LoginForm: Story = {
         placeholder="Enter your email"
         startAdornment={<EmailIcon />}
         requirementIndicator="required"
-        validationState="invalid"
+        isInvalid
         errorMessage="Please enter a valid email address"
       />
       <TextInput
@@ -215,16 +204,9 @@ export const AllStates: Story = {
         startAdornment={<EmailIcon />}
       />
       <TextInput
-        label="Valid State"
-        placeholder="Valid input"
-        validationState="valid"
-        startAdornment={<EmailIcon />}
-        defaultValue="user@example.com"
-      />
-      <TextInput
         label="Invalid State"
         placeholder="Invalid input"
-        validationState="invalid"
+        isInvalid
         errorMessage="This field has an error"
         startAdornment={<EmailIcon />}
         defaultValue="invalid-input"

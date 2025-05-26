@@ -4,14 +4,13 @@ import type React from 'react';
 import cn from '@/utils/cn';
 import { TextField, Label, Input, FieldError, Text } from 'react-aria-components';
 
-type ValidationState = 'default' | 'valid' | 'invalid';
 type RequirementIndicator = 'required' | 'optional' | 'none';
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
   defaultValue?: string;
-  validationState?: ValidationState;
+  isInvalid?: boolean;
   errorMessage?: string;
   description?: string;
   fullWidth?: boolean;
@@ -24,7 +23,7 @@ export default function TextInput({
   label,
   type = 'text',
   className,
-  validationState = 'default',
+  isInvalid = false,
   errorMessage,
   description,
   fullWidth = true,
@@ -48,7 +47,7 @@ export default function TextInput({
       className={cn('w-full', !fullWidth && 'w-auto')}
       isRequired={required || requirementIndicator === 'required'}
       isDisabled={disabled}
-      isInvalid={validationState === 'invalid'}
+      isInvalid={isInvalid}
       value={value}
       defaultValue={defaultValue}
       name={name}
@@ -56,7 +55,7 @@ export default function TextInput({
       {label && (
         <Label className={cn(
           'block font-medium mb-2',
-          validationState === 'invalid' ? 'text-red-600' : 'text-primary',
+          isInvalid ? 'text-red-600' : 'text-primary',
         )}>
           {label}
           {requirementIndicator === 'required' && (
@@ -84,11 +83,9 @@ export default function TextInput({
           className={cn(
             'w-full py-2.5 border rounded-md focus:outline-none bg-white',
             startAdornment ? 'pl-10' : 'pl-3',
-            (endAdornment || validationState === 'valid') ? 'pr-10' : 'pr-3',
-            validationState === 'invalid'
+            endAdornment ? 'pr-10' : 'pr-3',
+            isInvalid
               ? 'border-red-500 text-red-600 focus:ring-1 focus:ring-red-500 focus:border-red-500'
-              : validationState === 'valid'
-              ? 'border-success text-primary focus:ring-1 focus:ring-success focus:border-success'
               : 'border-divider text-primary focus:ring-1 focus:ring-primary/30 focus:border-primary/30',
             'disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed',
             className,
@@ -112,7 +109,7 @@ export default function TextInput({
         </Text>
       )}
 
-      {validationState === 'invalid' && errorMessage && (
+      {isInvalid && errorMessage && (
         <FieldError className="mt-1.5 text-sm text-red-600">
           {errorMessage}
         </FieldError>
