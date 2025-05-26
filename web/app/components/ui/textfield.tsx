@@ -3,11 +3,11 @@
 import type React from 'react';
 import { useRef } from 'react';
 import cn from '@/utils/cn';
-import { TextField, Label, Input, FieldError, Text } from 'react-aria-components';
+import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
 
 type RequirementIndicator = 'required' | 'optional' | 'none';
 
-interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement>,
+interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>,
                                  React.RefAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
@@ -21,7 +21,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement>,
   requirementIndicator?: RequirementIndicator;
 }
 
-function TextInput({
+function TextField({
   label,
   type = 'text',
   className,
@@ -44,7 +44,7 @@ function TextInput({
   id,
   ref,
   ...props
-}: TextInputProps) {
+}: TextFieldProps) {
   const internalRef = useRef<HTMLInputElement>(null);
 
   // Combine internal ref with forwarded ref
@@ -60,7 +60,7 @@ function TextInput({
   };
 
   return (
-    <TextField
+    <TextFieldBase
       className={cn('w-full', !fullWidth && 'w-auto')}
       isRequired={required || requirementIndicator === 'required'}
       isDisabled={disabled}
@@ -143,8 +143,8 @@ function TextInput({
           {errorMessage}
         </FieldError>
       )}
-    </TextField>
+    </TextFieldBase>
   );
 }
 
-export default TextInput;
+export default TextField;
