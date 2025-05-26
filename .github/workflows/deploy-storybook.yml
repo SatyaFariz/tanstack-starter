@@ -22,10 +22,10 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Build Storybook
-        run: pnpm build-storybook
+        run: npm build-storybook
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
