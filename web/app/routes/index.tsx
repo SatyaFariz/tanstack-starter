@@ -4,6 +4,7 @@ import Button from '@/components/ui/button';
 import TextField from '@/components/ui/textfield';
 import { useRef } from 'react';
 import Chip from '@/components/ui/chip';
+import Checkbox from '@/components/ui/checkbox';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -40,6 +41,13 @@ function Home() {
           <Chip label="Backend" variant="outlined" />
           <Chip label="Mobile" variant="outlined" />
           <Chip label="DevOps" variant="outlined" />
+        </div>
+
+        <div>
+          <Checkbox
+          >
+            Accept Terms and Conditions
+          </Checkbox>
         </div>
       </div>
     </div>
