@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vinxi dev",
-    "dev:host": "pnpm dev -- --host",
+    "dev:host": "bun dev -- --host",
     "build": "vinxi build",
     "start": "vinxi start",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
