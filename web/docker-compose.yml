@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: livintech-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - livintech-data:/var/lib/postgresql/data
+    networks:
+      - livintech
+    restart: unless-stopped
+
+networks:
+  livintech:
+    external: true
+
+volumes:
+  livintech-data:
+    external: true
