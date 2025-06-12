@@ -4,3 +4,16 @@ services:
   postgres:
     ports:
       - "5432:5432"
+
+  pgadmin:
+      image: dpage/pgadmin4:latest
+      container_name: livintech-pgadmin
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      ports:
+        - "8080:80"
+      networks:
+        - livintech
+      depends_on:
+        - postgres

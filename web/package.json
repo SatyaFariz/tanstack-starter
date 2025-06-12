@@ -11,7 +11,8 @@
     "lint:fix": "eslint --fix .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "db:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d postgres"
+    "db:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d postgres pgadmin",
+    "db:dev:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",
