@@ -17,3 +17,8 @@ services:
         - livintech
       depends_on:
         - postgres
+      volumes:
+      - livintech-pgadmin-data:/var/lib/pgadmin  # Named volume instead of unnamed
+
+volumes:
+  livintech-pgadmin-data:  # Define the named volume
