@@ -11,7 +11,8 @@
     "lint:fix": "eslint --fix .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "db:dev": "docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env up -d",
+    "docker-init": "./init-docker.sh",
+    "db:dev": "bun docker-init && docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env up -d",
     "db:dev:down": "docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env down"
   },
   "devDependencies": {
