@@ -2,6 +2,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
 interface ImportMetaEnv {
+  readonly POSTGRES_HOST: string;
   readonly VITE_ENVIRONMENT: 'development' | 'staging' | 'production';
 }
 
@@ -15,7 +16,7 @@ declare module '*.css?url' {
   export default url;
 }
 
-declare module '*.svg' {
-  const src: string;
-  export default src;
-}
+// declare module '*.svg' {
+//   const src: string;
+//   export default src;
+// }

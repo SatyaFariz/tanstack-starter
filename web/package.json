@@ -13,7 +13,12 @@
     "build-storybook": "storybook build",
     "docker-init": "./init-docker.sh",
     "db:dev": "bun docker-init && docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env up -d",
-    "db:dev:down": "docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env down"
+    "db:dev:down": "docker-compose -f db/docker-compose.yml -f db/docker-compose.dev.yml --env-file .env down",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:migrate": "drizzle-kit migrate",
+    "drizzle:studio": "drizzle-kit studio",
+    "drizzle:push": "drizzle-kit push:pg",
+    "drizzle:seed": "tsx app/lib/db/seed.ts"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",
