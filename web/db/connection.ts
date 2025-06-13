@@ -12,7 +12,6 @@ const poolConfig = {
   max: parseInt(process.env.POSTGRES_MAX_CONNECTIONS as string), // Maximum connections
   idleTimeoutMillis: parseInt(process.env.POSTGRES_IDLE_TIMEOUT as string), // 30 seconds
   connectionTimeoutMillis: parseInt(process.env.POSTGRES_CONNECTION_TIMEOUT as string), // 2 seconds
-  ssl: false,
 };
 
 const pool = new Pool(poolConfig);
