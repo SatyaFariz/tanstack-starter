@@ -2,7 +2,7 @@ import "./compression-polyfill";
 import type { Config } from 'drizzle-kit';
 
 export default {
-    schema: './db/schema.ts',
+    schema: './db/schemas',
     out: './db/migrations',
     dialect: 'postgresql',
     dbCredentials: {
