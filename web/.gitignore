@@ -2,9 +2,9 @@
 node_modules
 
 # output
-out
-dist
-*.tgz
+.output
+.nitro
+.tanstack
 
 # code coverage
 coverage
