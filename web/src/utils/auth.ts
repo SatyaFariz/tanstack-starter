@@ -19,3 +19,5 @@ export const auth = betterAuth({
 export const client = createAuthClient({
     
 })
+
+export const { signIn, signUp, useSession } = createAuthClient()
