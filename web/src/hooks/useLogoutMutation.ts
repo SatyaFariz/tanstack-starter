@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { authClient } from '@/utils/auth-client'
+import toast from 'react-hot-toast'
 
 export const useLogoutMutation = () => {
   const queryClient = useQueryClient()
@@ -9,14 +10,13 @@ export const useLogoutMutation = () => {
   const logoutMutation = useMutation({
     mutationFn: async () => {
       await authClient.signOut()
-      await queryClient.invalidateQueries()
+    },
+    onSuccess: () => {
+      queryClient.clear()
       router.invalidate()
     },
     onError: (error) => {
-      console.error('Logout error:', error)
-      // Still invalidate queries and router even if signOut fails
-      queryClient.invalidateQueries()
-      router.invalidate()
+      toast.error(`Logout error: ${error.message}`)
     }
   })
 

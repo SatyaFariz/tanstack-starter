@@ -9,6 +9,7 @@ import {
 import { getUserSession } from '@/services/auth';
 import appCss from '@/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
 
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -59,6 +60,9 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
+        <Toaster
+          position="top-center"
+        />
         {children}
         <Scripts />
       </body>
