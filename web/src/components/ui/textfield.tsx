@@ -3,16 +3,21 @@
 import type React from 'react';
 import { useRef } from 'react';
 import cn from '@/utils/cn';
+import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
 
 type RequirementIndicator = 'required' | 'optional' | 'none';
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement>,
-                                 React.RefAttributes<HTMLInputElement> {
+interface TextFieldProps extends Omit<
+  TextFieldPropsBase,
+  'children' |
+  'validate' |
+  'validationBehavior' |
+  'pattern'
+>,
+React.RefAttributes<HTMLInputElement> {
   label?: string;
-  value?: string;
-  defaultValue?: string;
-  isInvalid?: boolean;
+  placeholder?: string;
   errorMessage?: string;
   description?: string;
   fullWidth?: boolean;
@@ -31,11 +36,7 @@ function TextField({
   startAdornment,
   endAdornment,
   requirementIndicator = 'none',
-  required,
-  disabled,
-  value,
-  defaultValue,
-  name,
+  isRequired,
   ref,
   ...props
 }: TextFieldProps) {
@@ -56,12 +57,10 @@ function TextField({
   return (
     <TextFieldBase
       className={cn('w-full', !fullWidth && 'w-auto')}
-      isRequired={required || requirementIndicator === 'required'}
-      isDisabled={disabled}
+      isRequired={isRequired || requirementIndicator === 'required'}
       isInvalid={isInvalid}
-      value={value}
-      defaultValue={defaultValue}
-      name={name}
+      validationBehavior="aria"
+      {...props}
     >
       {label && (
         <Label className={cn(
@@ -106,7 +105,6 @@ function TextField({
             'placeholder:text-gray-400',
             className,
           )}
-          {...props}
         />
 
         {endAdornment && (
