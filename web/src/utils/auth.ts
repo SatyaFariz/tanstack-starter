@@ -1,8 +1,8 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { createAuthClient } from "better-auth/client"
 import { db } from "db/connection";
 import { admin } from "better-auth/plugins"
+import { reactStartCookies } from "better-auth/react-start";
  
 export const auth = betterAuth({
     emailAndPassword: {  
@@ -12,12 +12,7 @@ export const auth = betterAuth({
         provider: "pg", // or "mysql", "sqlite"
     }),
     plugins: [
-        admin() 
+        admin(),
+        reactStartCookies()
     ]
 });
- 
-export const client = createAuthClient({
-    
-})
-
-export const { signIn, signUp, useSession } = createAuthClient()

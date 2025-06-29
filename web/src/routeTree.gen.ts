@@ -13,6 +13,7 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BackendLoginRouteImport } from './routes/backend/login'
 import { Route as BackendLayoutRouteImport } from './routes/backend/_layout'
 import { Route as BackendLayoutIndexRouteImport } from './routes/backend/_layout/index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BackendLoginRoute = BackendLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => BackendRoute,
 } as any)
 const BackendLayoutRoute = BackendLayoutRouteImport.update({
   id: '/_layout',
@@ -48,25 +54,34 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/backend': typeof BackendLayoutRouteWithChildren
+  '/backend/login': typeof BackendLoginRoute
   '/backend/': typeof BackendLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/backend': typeof BackendLayoutIndexRoute
+  '/backend/login': typeof BackendLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/backend': typeof BackendRouteWithChildren
   '/backend/_layout': typeof BackendLayoutRouteWithChildren
+  '/backend/login': typeof BackendLoginRoute
   '/backend/_layout/': typeof BackendLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/backend' | '/backend/'
+  fullPaths: '/' | '/backend' | '/backend/login' | '/backend/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/backend'
-  id: '__root__' | '/' | '/backend' | '/backend/_layout' | '/backend/_layout/'
+  to: '/' | '/backend' | '/backend/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/backend'
+    | '/backend/_layout'
+    | '/backend/login'
+    | '/backend/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/backend/login': {
+      id: '/backend/login'
+      path: '/login'
+      fullPath: '/backend/login'
+      preLoaderRoute: typeof BackendLoginRouteImport
+      parentRoute: typeof BackendRoute
+    }
     '/backend/_layout': {
       id: '/backend/_layout'
       path: '/backend'
@@ -153,10 +175,12 @@ const BackendLayoutRouteWithChildren = BackendLayoutRoute._addFileChildren(
 
 interface BackendRouteChildren {
   BackendLayoutRoute: typeof BackendLayoutRouteWithChildren
+  BackendLoginRoute: typeof BackendLoginRoute
 }
 
 const BackendRouteChildren: BackendRouteChildren = {
   BackendLayoutRoute: BackendLayoutRouteWithChildren,
+  BackendLoginRoute: BackendLoginRoute,
 }
 
 const BackendRouteWithChildren =
