@@ -1,6 +1,12 @@
-import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation'
+import TextField from '@/components/ui/textfield';
+import Button from '@/components/ui/button';
+import { z } from 'zod';
+
+// Email validation schema using Zod
+const emailSchema = z.string().email();
 
 export const Route = createFileRoute('/backend/login')({
   component: RouteComponent,
@@ -34,35 +40,64 @@ function RouteComponent() {
     >
       <form.Field
         name="email"
+        validators={{
+          onChange: ({ value }) => {
+            if (!value) {
+              return 'Email is required';
+            } else if (!emailSchema.safeParse(value).success) {
+              return 'Please enter a valid email address';
+            }
+            return undefined;
+          },
+        }}
         children={(field) => (
-          <input 
+          <TextField 
             name="Email" 
             placeholder="Enter your email"
-            required 
+            requirementIndicator="*" 
             type="email"
             defaultValue={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(val) => field.handleChange(val)}
+            errorMessage={field.state.meta.errors.join(', ')}
+            isInvalid={field.state.meta.errors.length > 0}
           />
         )}
       />
       <form.Field
         name="password"
+        validators={{
+          onChange: ({ value }) => {
+            if (!value.trim()) {
+              return 'Password is required';
+            }
+            return undefined;
+          },
+        }}
         children={(field) => (
-          <input 
+          <TextField 
             name="Password" 
             placeholder="Enter your password"
-            required 
+            requirementIndicator="*" 
             type="password" 
             defaultValue={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(val) => field.handleChange(val)}
+            errorMessage={field.state.meta.errors.join(', ')}
+            isInvalid={field.state.meta.errors.length > 0}
           />
         )}
       />
-      <button
-        type='submit'
-      >
-        Login
-      </button>
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <Button
+            type='submit'
+            disabled={!canSubmit}
+            loading={isSubmitting}
+          >
+            Login
+          </Button>
+        )}
+      />
     </form>
   )
 }
