@@ -5,8 +5,9 @@ import { useRef } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
+import type { LooseEnum } from '@/types/generics';
 
-type RequirementIndicator = 'required' | 'optional' | 'none';
+type RequirementIndicator = LooseEnum<'*' | '(optional)'>;
 
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
@@ -35,7 +36,7 @@ function TextField({
   fullWidth = true,
   startAdornment,
   endAdornment,
-  requirementIndicator = 'none',
+  requirementIndicator,
   isRequired,
   ref,
   ...props
@@ -68,11 +69,11 @@ function TextField({
           isInvalid ? 'text-red-600' : 'text-primary',
         )}>
           {label}
-          {requirementIndicator === 'required' && (
+          {requirementIndicator === '*' && (
             <span className="text-red-500 ml-1">*</span>
           )}
-          {requirementIndicator === 'optional' && (
-            <span className="text-gray-400 ml-1">(optional)</span>
+          {requirementIndicator && requirementIndicator !== '*' && (
+            <span className="text-gray-400 ml-1">{requirementIndicator}</span>
           )}
         </Label>
       )}

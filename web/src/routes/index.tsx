@@ -28,7 +28,7 @@ function Home() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          requirementIndicator="required"
+          requirementIndicator="(optional)"
           startAdornment="@"
           endAdornment={<span className="text-gray-400">kg</span>}
           errorMessage="Please enter a valid email address"
