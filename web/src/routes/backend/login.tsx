@@ -1,6 +1,5 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useNavigate } from "@tanstack/react-router"
 import { authClient } from "@/utils/auth-client"
 import { useForm } from '@tanstack/react-form'
 
@@ -32,7 +31,7 @@ export const Route = createFileRoute('/backend/login')({
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const queryClient = useQueryClient()
 
   const signInMutation = useMutation({
@@ -41,7 +40,7 @@ function RouteComponent() {
       // alert(`Hey ${response.user.name}, welcome back!`)
 
       queryClient.resetQueries()
-      navigate({ to: '/backend' })
+      router.invalidate()
     },
   })
 

@@ -16,6 +16,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const userSession = await context.queryClient.fetchQuery(queryOptions({
       queryKey: ['auth', 'user'],
       queryFn: () => getUserSession(),
+      staleTime: 5000,
     }))
 
     return { userSession }
