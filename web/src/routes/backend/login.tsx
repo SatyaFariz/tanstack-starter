@@ -1,25 +1,6 @@
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { authClient } from "@/utils/auth-client"
 import { useForm } from '@tanstack/react-form'
-
-type SignInSchema = {
-  email: string;
-  password: string;
-}
-
-const signIn = async (data: SignInSchema) => {
-  const { error, data: response } = await authClient.signIn.email({
-    email: data.email,
-    password: data.password,
-  })
-
-  if (error) {
-    throw new Error(error.message)
-  }
-
-  return response
-}
+import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation'
 
 export const Route = createFileRoute('/backend/login')({
   component: RouteComponent,
@@ -31,26 +12,15 @@ export const Route = createFileRoute('/backend/login')({
 })
 
 function RouteComponent() {
-  const router = useRouter()
-  const queryClient = useQueryClient()
-
-  const signInMutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: (response) => {
-      // alert(`Hey ${response.user.name}, welcome back!`)
-
-      queryClient.resetQueries()
-      router.invalidate()
-    },
-  })
+  const loginMutation = useLoginWithEmailMutation()
 
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
-    } as SignInSchema,
+    },
     onSubmit: async ({ value }) => {
-      await signInMutation.mutateAsync(value)
+      await loginMutation.mutateAsync(value)
     },
   })
   
