@@ -58,7 +58,7 @@ function TextField({
   return (
     <TextFieldBase
       className={cn('w-full', !fullWidth && 'w-auto')}
-      isRequired={isRequired || requirementIndicator === 'required'}
+      isRequired={isRequired || requirementIndicator === '*'}
       isInvalid={isInvalid}
       validationBehavior="aria"
       {...props}
