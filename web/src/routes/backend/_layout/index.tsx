@@ -1,3 +1,4 @@
+import { useLogoutMutation } from '@/hooks/useLogoutMutation'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/backend/_layout/')({
@@ -5,5 +6,10 @@ export const Route = createFileRoute('/backend/_layout/')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/backend/_layout/"!</div>
+  const logoutMutation = useLogoutMutation();
+  return (
+      <div>
+        <button onClick={() => logoutMutation.mutate()}>Logout</button>
+      </div>
+  )
 }
