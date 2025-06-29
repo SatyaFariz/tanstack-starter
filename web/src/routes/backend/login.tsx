@@ -69,7 +69,7 @@ function RouteComponent() {
               {(field) => (
                 <div className="space-y-2">
                   <TextField 
-                    name="Email" 
+                    label="Email" 
                     placeholder="Enter your email"
                     requirementIndicator="*" 
                     type="email"
@@ -96,7 +96,7 @@ function RouteComponent() {
               {(field) => (
                 <div className="space-y-2">
                   <TextField 
-                    name="Password" 
+                    label="Password" 
                     placeholder="Enter your password"
                     requirementIndicator="*" 
                     type="password" 
