@@ -16,7 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BackendLoginRouteImport } from './routes/backend/login'
 import { Route as BackendLayoutRouteImport } from './routes/backend/_layout'
 import { Route as BackendLayoutIndexRouteImport } from './routes/backend/_layout/index'
-import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
+import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth.$'
 
 const BackendRouteImport = createFileRoute('/backend')()
 const rootServerRouteImport = createServerRootRoute()
