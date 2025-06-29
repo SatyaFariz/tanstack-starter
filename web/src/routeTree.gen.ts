@@ -8,18 +8,36 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BackendLayoutRouteImport } from './routes/backend/_layout'
+import { Route as BackendLayoutIndexRouteImport } from './routes/backend/_layout/index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
+const BackendRouteImport = createFileRoute('/backend')()
 const rootServerRouteImport = createServerRootRoute()
 
+const BackendRoute = BackendRouteImport.update({
+  id: '/backend',
+  path: '/backend',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BackendLayoutRoute = BackendLayoutRouteImport.update({
+  id: '/_layout',
+  getParentRoute: () => BackendRoute,
+} as any)
+const BackendLayoutIndexRoute = BackendLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BackendLayoutRoute,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
@@ -29,24 +47,31 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/backend': typeof BackendLayoutRouteWithChildren
+  '/backend/': typeof BackendLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/backend': typeof BackendLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/backend': typeof BackendRouteWithChildren
+  '/backend/_layout': typeof BackendLayoutRouteWithChildren
+  '/backend/_layout/': typeof BackendLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/backend' | '/backend/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/backend'
+  id: '__root__' | '/' | '/backend' | '/backend/_layout' | '/backend/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BackendRoute: typeof BackendRouteWithChildren
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -72,12 +97,33 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/backend': {
+      id: '/backend'
+      path: '/backend'
+      fullPath: '/backend'
+      preLoaderRoute: typeof BackendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/backend/_layout': {
+      id: '/backend/_layout'
+      path: '/backend'
+      fullPath: '/backend'
+      preLoaderRoute: typeof BackendLayoutRouteImport
+      parentRoute: typeof BackendRoute
+    }
+    '/backend/_layout/': {
+      id: '/backend/_layout/'
+      path: '/'
+      fullPath: '/backend/'
+      preLoaderRoute: typeof BackendLayoutIndexRouteImport
+      parentRoute: typeof BackendLayoutRoute
     }
   }
 }
@@ -93,8 +139,32 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface BackendLayoutRouteChildren {
+  BackendLayoutIndexRoute: typeof BackendLayoutIndexRoute
+}
+
+const BackendLayoutRouteChildren: BackendLayoutRouteChildren = {
+  BackendLayoutIndexRoute: BackendLayoutIndexRoute,
+}
+
+const BackendLayoutRouteWithChildren = BackendLayoutRoute._addFileChildren(
+  BackendLayoutRouteChildren,
+)
+
+interface BackendRouteChildren {
+  BackendLayoutRoute: typeof BackendLayoutRouteWithChildren
+}
+
+const BackendRouteChildren: BackendRouteChildren = {
+  BackendLayoutRoute: BackendLayoutRouteWithChildren,
+}
+
+const BackendRouteWithChildren =
+  BackendRoute._addFileChildren(BackendRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BackendRoute: BackendRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

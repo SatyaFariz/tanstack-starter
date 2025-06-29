@@ -2,14 +2,24 @@
 import type { ReactNode } from 'react';
 import {
   Outlet,
-  createRootRoute,
   HeadContent,
   Scripts,
+  createRootRouteWithContext,
 } from '@tanstack/react-router';
-
+import { getUserSession } from '@/services/auth';
 import appCss from '@/styles/app.css?url';
+import { queryOptions, type QueryClient } from '@tanstack/react-query';
 
-export const Route = createRootRoute({
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  beforeLoad: async ({ context }) => {
+    const userSession = await context.queryClient.fetchQuery(queryOptions({
+      queryKey: ['auth', 'user'],
+      queryFn: () => getUserSession(),
+    }))
+
+    return { userSession }
+  },
   head: () => ({
     meta: [
       {
