@@ -5,6 +5,7 @@ import TextField from '@/components/ui/textfield';
 import { useRef } from 'react';
 import Chip from '@/components/ui/chip';
 import Checkbox from '@/components/ui/checkbox';
+import Spinner from '@/components/ui/spinner';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -48,6 +49,10 @@ function Home() {
           >
             Accept Terms and Conditions
           </Checkbox>
+        </div>
+
+        <div>
+          <Spinner className="bg-red-400"/>
         </div>
       </div>
     </div>
