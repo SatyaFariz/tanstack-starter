@@ -53,7 +53,7 @@ function Home() {
         </div>
 
         <div>
-          <Spinner className="bg-red-400"/>
+          <Spinner className="text-red-400"/>
         </div>
       </div>
     </div>
