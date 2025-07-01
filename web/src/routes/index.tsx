@@ -20,6 +20,7 @@ function Home() {
           onPress={() => {
             inputRef.current?.focus();
           }}
+          loading
         >
           Click Me
         </Button>
