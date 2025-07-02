@@ -6,7 +6,7 @@ export const getUserSession = createServerFn({ method: 'GET' }).handler(
   async () => {
     const request = getWebRequest();
 
-    if (!request?.headers) {
+    if(!request?.headers) {
       return null;
     }
 

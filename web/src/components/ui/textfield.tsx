@@ -45,12 +45,12 @@ function TextField({
 
   // Combine internal ref with forwarded ref
   const inputRef = (node: HTMLInputElement | null) => {
-    if (internalRef.current !== node) {
+    if(internalRef.current !== node) {
       internalRef.current = node;
     }
-    if (typeof ref === 'function') {
+    if(typeof ref === 'function') {
       ref(node);
-    } else if (ref) {
+    } else if(ref) {
       ref.current = node;
     }
   };

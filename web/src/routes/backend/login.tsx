@@ -11,7 +11,7 @@ const emailSchema = z.string().email();
 export const Route = createFileRoute('/backend/login')({
   component: RouteComponent,
   beforeLoad: async ({ context }) => {
-    if (context.userSession) {
+    if(context.userSession) {
       throw redirect({ to: '/backend' });
     }
   },
@@ -57,9 +57,9 @@ function RouteComponent() {
               name="email"
               validators={{
                 onChange: ({ value }) => {
-                  if (!value) {
+                  if(!value) {
                     return 'Email is required';
-                  } else if (!emailSchema.safeParse(value).success) {
+                  } else if(!emailSchema.safeParse(value).success) {
                     return 'Please enter a valid email address';
                   }
                   return undefined;
@@ -86,7 +86,7 @@ function RouteComponent() {
               name="password"
               validators={{
                 onChange: ({ value }) => {
-                  if (!value.trim()) {
+                  if(!value.trim()) {
                     return 'Password is required';
                   }
                   return undefined;

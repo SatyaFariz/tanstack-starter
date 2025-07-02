@@ -3,7 +3,7 @@ import typescriptParser from '@typescript-eslint/parser'
 import typescriptPlugin from '@typescript-eslint/eslint-plugin'
 import reactRefreshPlugin from 'eslint-plugin-react-refresh'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import stylisticTsPlugin from '@stylistic/eslint-plugin'
+import stylisticPlugin from '@stylistic/eslint-plugin'
 
 export default [
   {
@@ -36,7 +36,6 @@ export default [
       'no-multi-spaces': ['error'],
       'array-bracket-spacing': ['error', 'never'],
       'object-curly-spacing': ['error', 'always'],
-      'keyword-spacing': ['error', { 'before': true, 'after': true }],
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
       'prefer-arrow-callback': ['error'],
       'arrow-parens': ['error', 'always'],
@@ -48,13 +47,13 @@ export default [
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
       '@typescript-eslint': typescriptPlugin,
-      '@stylistic/ts': stylisticTsPlugin,
+      '@stylistic': stylisticPlugin,
     },
     rules: {
       ...typescriptPlugin.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': ['error'],
-      '@stylistic/ts/semi': 'error',
-      '@stylistic/ts/member-delimiter-style': [
+      '@stylistic/semi': 'error',
+      '@stylistic/member-delimiter-style': [
         'error',
         {
           'multiline': {
@@ -67,6 +66,16 @@ export default [
           }
         }
       ],
+      '@stylistic/keyword-spacing': [
+        'error', 
+        { 
+          'overrides': {
+            'if': { 'after': false },
+            'for': { 'after': false },
+            'while': { 'after': false },
+          } 
+        }
+      ]
     },
   },
   // React-specific config

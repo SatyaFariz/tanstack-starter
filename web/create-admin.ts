@@ -11,18 +11,18 @@ const params = Object.fromEntries(args.map((arg) => {
 let { name, email, pass } = params;
 
 // Prompt for missing arguments
-if (!name) {
+if(!name) {
   name = prompt('Name:')?.trim() ?? '';
 }
-if (!email) {
+if(!email) {
   email = prompt('Email:')?.trim() ?? '';
 }
-if (!pass) {
+if(!pass) {
   pass = prompt('Password:')?.trim() ?? '';
 }
 
 // Validate after prompting
-if (!name || !email || !pass) {
+if(!name || !email || !pass) {
   // eslint-disable-next-line no-console
   console.error('❌ Error: Missing required values (email, pass, or name).');
   // eslint-disable-next-line no-console

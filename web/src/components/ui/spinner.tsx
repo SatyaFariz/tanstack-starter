@@ -9,7 +9,7 @@ const Spinner = ({
   variant,
   className,
 }: SpinnerProps) => {
-  if (variant === 'ios') {
+  if(variant === 'ios') {
     return (
       <div className={cn('relative flex w-8 h-8 bg-primary', className)}>
         {[...new Array(12)].map((_, index) => (
@@ -30,7 +30,7 @@ const Spinner = ({
         ))}
       </div>
     );
-  } else if (variant === 'ring') {
+  } else if(variant === 'ring') {
     return (
       <svg
         className={cn('relative flex animate-spin w-8 h-8 text-primary', className)}
@@ -41,7 +41,7 @@ const Spinner = ({
         <path className="absolute w-full h-full rounded-full border-3 border-b-primary opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
       </svg>
     );
-  } else if (variant === 'dots') {
+  } else if(variant === 'dots') {
     return (
       <div className={cn('relative flex translate-y-2/4 w-8 h-8', className)}>
         {[...new Array(3)].map((_, index) => (

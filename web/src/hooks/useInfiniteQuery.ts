@@ -38,7 +38,7 @@ type UseInfiniteQueryOpts<T> = {
 const fetchInfiniteData = async <T>({ url, pageParam, queryParams = {} }: FetchInfiniteDataParams) => {
   const params = new URLSearchParams();
 
-  if (pageParam) {
+  if(pageParam) {
     params.append('cursor', pageParam);
   }
 
@@ -66,7 +66,7 @@ export function useInfiniteQuery<T>(
 
   // Flatten the data pages while preserving pagination
   const flattenedData = useMemo(() => {
-    if (!result.data?.pages) return [];
+    if(!result.data?.pages) return [];
     return result.data.pages.reduce((acc: T[], page) => {
       return [...acc, ...(page.data as T[])];
     }, [] as T[]);

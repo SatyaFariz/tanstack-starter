@@ -18,7 +18,7 @@ const params = Object.fromEntries(args.map((arg) => {
 
 const { env, email, pass } = params;
 
-if (!env || !email || !pass) {
+if(!env || !email || !pass) {
     // eslint-disable-next-line no-console
     console.error('Usage: bun env.ts --env=staging --email=example@email.com --pass=Pass1234');
     process.exit(1);
@@ -29,7 +29,7 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 try {
     await pb.collection('_superusers').authWithPassword(email, pass);
 
-    if (!pb.authStore.isValid) {
+    if(!pb.authStore.isValid) {
         throw new Error('Invalid authentication');
     }
 

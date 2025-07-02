@@ -10,7 +10,7 @@ type RequestOptions = {
 
 class Http {
   private static buildUrl(url: string, params?: Record<string, string | number>): string {
-    if (!params || Object.keys(params).length === 0) {
+    if(!params || Object.keys(params).length === 0) {
       return url;
     }
 
@@ -35,27 +35,27 @@ class Http {
       xhr.open(method, finalUrl, true);
 
       // Set headers
-      if (options.headers) {
+      if(options.headers) {
         Object.entries(options.headers).forEach(([key, value]) => {
           xhr.setRequestHeader(key, value);
         });
       }
 
       // Set default content type for requests with data
-      if (['POST', 'PUT', 'PATCH'].includes(method) && options.data) {
-        if (!options.headers?.['Content-Type']) {
+      if(['POST', 'PUT', 'PATCH'].includes(method) && options.data) {
+        if(!options.headers?.['Content-Type']) {
           xhr.setRequestHeader('Content-Type', 'application/json');
         }
       }
 
       // Set timeout
-      if (options.timeout) {
+      if(options.timeout) {
         xhr.timeout = options.timeout;
       }
 
       // Handle abort signal
-      if (options.signal) {
-        if (options.signal.aborted) {
+      if(options.signal) {
+        if(options.signal.aborted) {
           reject(new DOMException('Request was aborted', 'AbortError'));
           return;
         }
@@ -74,23 +74,23 @@ class Http {
       }
 
       // Progress event handlers
-      if (options.onDownloadProgress) {
+      if(options.onDownloadProgress) {
         xhr.addEventListener('progress', options.onDownloadProgress);
       }
 
-      if (options.onUploadProgress && xhr.upload) {
+      if(options.onUploadProgress && xhr.upload) {
         xhr.upload.addEventListener('progress', options.onUploadProgress);
       }
 
       // Handle response
       xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
+        if(xhr.status >= 200 && xhr.status < 300) {
           try {
             // Try to parse as JSON first
             const contentType = xhr.getResponseHeader('Content-Type') || '';
             let response: T;
 
-            if (contentType.includes('application/json')) {
+            if(contentType.includes('application/json')) {
               response = JSON.parse(xhr.responseText);
             } else {
               // Return as string for non-JSON responses
@@ -122,10 +122,10 @@ class Http {
 
       // Send request
       let body: string | FormData | null = null;
-      if (options.data !== undefined) {
-        if (options.data instanceof FormData) {
+      if(options.data !== undefined) {
+        if(options.data instanceof FormData) {
           body = options.data;
-        } else if (typeof options.data === 'string') {
+        } else if(typeof options.data === 'string') {
           body = options.data;
         } else {
           body = JSON.stringify(options.data);

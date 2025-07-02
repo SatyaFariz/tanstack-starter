@@ -82,7 +82,7 @@ export default function Chip({
   );
 
   // If there's an onClick handler, wrap in a Button for better accessibility
-  if (onClick) {
+  if(onClick) {
     return (
       <Button
         onPress={onClick}

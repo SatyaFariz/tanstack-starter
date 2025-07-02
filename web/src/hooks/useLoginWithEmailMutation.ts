@@ -19,7 +19,7 @@ export const useLoginWithEmailMutation = () => {
         password: data.password,
       });
 
-      if (error) {
+      if(error) {
         throw new Error(error.message);
       }
 
