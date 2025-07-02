@@ -63,8 +63,9 @@ const Button: React.FC<ButtonProps> = ({
     >
       {loading ? (
         <Spinner
-          variant="ios"
-          className="text-white h-6 w-6"
+          variant="ring"
+          size="sm"
+          className="text-white"
         />
       ) : (
         <>
