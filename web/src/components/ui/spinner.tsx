@@ -13,7 +13,16 @@ const Spinner = ({
 }: SpinnerProps) => {
   if(variant === 'ios') {
     return (
-      <div className={cn('relative flex w-8 h-8 bg-primary', className)}>
+      <div
+        className={cn(
+          'bg-primary',
+          className,
+          'relative',
+          size === 'sm' && 'w-5 h-5',
+          size === 'md' && 'w-8 h-8',
+          size === 'lg' && 'w-10 h-10',
+        )}
+      >
         {[...new Array(12)].map((_, index) => (
           <i
             key={`star-${index}`}
