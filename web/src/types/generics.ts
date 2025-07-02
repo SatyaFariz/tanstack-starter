@@ -1,1 +1,1 @@
-export type LooseEnum<T extends string> = T | Omit<string, T>
+export type LooseEnum<T extends string> = T | Omit<string, T>;

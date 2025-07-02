@@ -1,7 +1,7 @@
 // vite.config.ts
-import { defineConfig } from 'vite'
-import tsConfigPaths from 'vite-tsconfig-paths'
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { defineConfig } from 'vite';
+import tsConfigPaths from 'vite-tsconfig-paths';
+import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -10,7 +10,7 @@ export default defineConfig({
   },
   plugins: [
     svgr(),
-    tsConfigPaths(), 
-    tanstackStart()
+    tsConfigPaths(),
+    tanstackStart(),
   ],
-})
+});

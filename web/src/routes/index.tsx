@@ -53,7 +53,7 @@ function Home() {
         </div>
 
         <div>
-          <Spinner 
+          <Spinner
             className="text-red-400"
             variant="dots"
           />

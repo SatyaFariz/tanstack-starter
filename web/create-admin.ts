@@ -3,7 +3,7 @@ import { auth } from '@/utils/auth';
 
 // Get CLI args
 const args = Bun.argv.slice(2);
-const params = Object.fromEntries(args.map(arg => {
+const params = Object.fromEntries(args.map((arg) => {
   const [key, value] = arg.replace(/^--/, '').split('=');
   return [key, value];
 }));

@@ -1,6 +1,6 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useForm } from '@tanstack/react-form'
-import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation'
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { useForm } from '@tanstack/react-form';
+import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
 import TextField from '@/components/ui/textfield';
 import Button from '@/components/ui/button';
 import { z } from 'zod';
@@ -12,13 +12,13 @@ export const Route = createFileRoute('/backend/login')({
   component: RouteComponent,
   beforeLoad: async ({ context }) => {
     if (context.userSession) {
-      throw redirect({ to: '/backend' })
+      throw redirect({ to: '/backend' });
     }
   },
-})
+});
 
 function RouteComponent() {
-  const loginMutation = useLoginWithEmailMutation()
+  const loginMutation = useLoginWithEmailMutation();
 
   const form = useForm({
     defaultValues: {
@@ -26,10 +26,10 @@ function RouteComponent() {
       password: '',
     },
     onSubmit: async ({ value }) => {
-      await loginMutation.mutateAsync(value)
+      await loginMutation.mutateAsync(value);
     },
-  })
-  
+  });
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
       <div className="w-full max-w-md">
@@ -49,8 +49,8 @@ function RouteComponent() {
           <form
             className="space-y-6"
             onSubmit={(e) => {
-              e.preventDefault()
-              form.handleSubmit()
+              e.preventDefault();
+              form.handleSubmit();
             }}
           >
             <form.Field
@@ -68,10 +68,10 @@ function RouteComponent() {
             >
               {(field) => (
                 <div className="space-y-2">
-                  <TextField 
-                    label="Email" 
+                  <TextField
+                    label="Email"
                     placeholder="Enter your email"
-                    requirementIndicator="*" 
+                    requirementIndicator="*"
                     type="email"
                     defaultValue={field.state.value}
                     onChange={(val) => field.handleChange(val)}
@@ -95,11 +95,11 @@ function RouteComponent() {
             >
               {(field) => (
                 <div className="space-y-2">
-                  <TextField 
-                    label="Password" 
+                  <TextField
+                    label="Password"
                     placeholder="Enter your password"
-                    requirementIndicator="*" 
-                    type="password" 
+                    requirementIndicator="*"
+                    type="password"
                     defaultValue={field.state.value}
                     onChange={(val) => field.handleChange(val)}
                     errorMessage={field.state.meta.errors.join(', ')}
@@ -115,7 +115,7 @@ function RouteComponent() {
               {([canSubmit, isSubmitting]) => (
                 <div className="pt-4">
                   <Button
-                    type='submit'
+                    type="submit"
                     disabled={!canSubmit}
                     loading={isSubmitting}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
@@ -130,8 +130,8 @@ function RouteComponent() {
           {/* Additional Links */}
           <div className="mt-8 pt-6 border-t border-slate-200">
             <div className="text-center">
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
               >
                 Forgot your password?
@@ -148,5 +148,5 @@ function RouteComponent() {
         </div>
       </div>
     </div>
-  )
+  );
 }

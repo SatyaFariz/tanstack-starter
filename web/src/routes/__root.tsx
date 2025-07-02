@@ -11,16 +11,15 @@ import appCss from '@/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   beforeLoad: async ({ context }) => {
     const userSession = await context.queryClient.fetchQuery(queryOptions({
       queryKey: ['auth', 'user'],
       queryFn: () => getUserSession(),
       staleTime: 5000,
-    }))
+    }));
 
-    return { userSession }
+    return { userSession };
   },
   head: () => ({
     meta: [

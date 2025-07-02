@@ -62,7 +62,7 @@ const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {loading ? (
-        <Spinner 
+        <Spinner
           variant="ios"
           className="text-white h-6 w-6"
         />
