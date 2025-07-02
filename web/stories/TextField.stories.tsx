@@ -51,7 +51,7 @@ const meta = {
     fullWidth: {
       control: { type: 'boolean' },
     },
-    disabled: {
+    isDisabled: {
       control: { type: 'boolean' },
     },
     label: {
@@ -151,7 +151,7 @@ export const Disabled: Story = {
   args: {
     label: 'Email',
     placeholder: 'Enter your email',
-    disabled: true,
+    isDisabled: true,
     startAdornment: <EmailIcon />,
     defaultValue: 'user@example.com',
   },
@@ -214,7 +214,7 @@ export const AllStates: Story = {
       <TextInput
         label="Disabled State"
         placeholder="Disabled input"
-        disabled
+        isDisabled
         startAdornment={<EmailIcon />}
         defaultValue="disabled@example.com"
       />
