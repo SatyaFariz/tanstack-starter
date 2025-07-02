@@ -72,11 +72,25 @@ const Spinner = ({
     );
   } else if(variant === 'dots') {
     return (
-      <div className={cn('relative flex translate-y-2/4 w-8 h-8', className)}>
+      <div
+        className={cn(
+          'text-primary',
+          className,
+          'relative flex translate-y-2/4',
+          size === 'sm' && 'w-5 h-5',
+          size === 'md' && 'w-8 h-8',
+          size === 'lg' && 'w-10 h-10',
+        )}
+      >
         {[...new Array(3)].map((_, index) => (
           <i
             key={`dot-${index}`}
-            className="relative rounded-full mx-auto size-1.5 bg-current animate-blink spinner-dot-blink-animation"
+            className={cn(
+              'relative rounded-full mx-auto bg-current animate-blink spinner-dot-blink-animation',
+              size === 'sm' && 'size-1',
+              size === 'md' && 'size-1.5',
+              size === 'lg' && 'size-2',
+            )}
             style={
               {
                 '--dot-index': index,
