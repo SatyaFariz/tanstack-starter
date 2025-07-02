@@ -18,6 +18,7 @@ const pool = new Pool(poolConfig);
 
 // Handle pool errors
 pool.on('error', (err) => {
+  // eslint-disable-next-line no-console
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
@@ -36,6 +37,7 @@ export const checkDatabaseConnection = async () => {
     client.release();
     return true;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Database connection failed:', error);
     return false;
   }
@@ -45,8 +47,10 @@ export const checkDatabaseConnection = async () => {
 export const closeDatabaseConnection = async () => {
   try {
     await pool.end();
+    // eslint-disable-next-line no-console
     console.log('Database connection pool closed');
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error closing database connection:', error);
   }
 };

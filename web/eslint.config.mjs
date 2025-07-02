@@ -7,7 +7,11 @@ import stylisticTsPlugin from '@stylistic/eslint-plugin-ts'
 
 export default [
   {
-    ignores: ['dist/**'],
+    ignores: [
+      '.nitro/**',
+      '.output/**',
+      '.tanstack/**'
+    ],
   },
   // Global settings
   {
