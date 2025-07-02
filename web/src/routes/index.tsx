@@ -14,7 +14,7 @@ export const Route = createFileRoute('/')({
 function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="flex items-center justify-center h-dvh">
+    <div className="flex items-center justify-center h-dvh p-6">
       <div className="flex flex-col gap-4">
         <Button
           onPress={() => {
