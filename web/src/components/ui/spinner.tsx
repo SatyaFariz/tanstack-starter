@@ -41,6 +41,24 @@ const Spinner = ({
         <path className="absolute w-full h-full rounded-full border-3 border-b-primary opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
       </svg>
     )
+  } else if (variant === 'dots') {
+    return (
+      <div className={cn('relative flex translate-y-2/4 w-8 h-8', className)}>
+        {[...new Array(3)].map((_, index) => (
+          <i
+            key={`dot-${index}`}
+            className="relative rounded-full mx-auto size-1.5 bg-current animate-blink spinner-dot-blink-animation"
+            style={
+              {
+                "--dot-index": index,
+                animation: 'blink 1.4s infinite both',
+                animationDelay: 'calc(.2s * var(--dot-index))',
+              } as React.CSSProperties
+            }
+          />
+        ))}
+      </div>
+    )
   }
 
   return (
