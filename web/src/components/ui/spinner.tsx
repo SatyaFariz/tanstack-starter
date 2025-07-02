@@ -1,11 +1,13 @@
 import cn from '@/utils/cn';
 
 type SpinnerProps = {
+  size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'ring' | 'ios' | 'dots';
   className?: string;
 };
 
 const Spinner = ({
+  size = 'md',
   variant,
   className,
 }: SpinnerProps) => {
@@ -62,9 +64,28 @@ const Spinner = ({
   }
 
   return (
-    <div className={cn('relative flex w-8 h-8', className)}>
-      <i className="absolute w-full h-full rounded-full border-3 border-b-current animate-spinner-ease-spin border-solid border-t-transparent border-l-transparent border-r-transparent"></i>
-      <i className="absolute w-full h-full rounded-full border-3 border-b-current opacity-75 animate-spinner-linear-spin border-dotted border-t-transparent border-l-transparent border-r-transparent"></i>
+    <div
+      className={cn(
+        className,
+        size === 'sm' && 'w-5 h-5',
+        size === 'md' && 'w-8 h-8',
+        size === 'lg' && 'w-10 h-10',
+      )}
+    >
+      <div className="relative flex w-full h-full">
+        <i
+          className={cn(
+            'absolute w-full h-full rounded-full border-3 border-b-current animate-spinner-ease-spin border-solid border-t-transparent border-l-transparent border-r-transparent',
+            size === 'sm' && 'border-2',
+          )}
+        />
+        <i
+          className={cn(
+            'absolute w-full h-full rounded-full border-3 border-b-current opacity-75 animate-spinner-linear-spin border-dotted border-t-transparent border-l-transparent border-r-transparent',
+            size === 'sm' && 'border-2',
+          )}
+        />
+      </div>
     </div>
   );
 };
