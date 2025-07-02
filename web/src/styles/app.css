@@ -8,6 +8,10 @@
     animation: spinner-spin .8s linear infinite;
 }
 
+@theme {
+  --color-primary: #ff0000;
+}
+
 @keyframes fade-out {
   0% { opacity: 1; }
   100% { opacity: 0.15; }

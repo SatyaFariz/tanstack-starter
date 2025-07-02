@@ -107,6 +107,7 @@ const Spinner = ({
   return (
     <div
       className={cn(
+        'text-primary',
         className,
         'relative',
         size === 'sm' && 'w-5 h-5',
