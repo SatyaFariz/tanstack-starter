@@ -3,7 +3,7 @@ import typescriptParser from '@typescript-eslint/parser'
 import typescriptPlugin from '@typescript-eslint/eslint-plugin'
 import reactRefreshPlugin from 'eslint-plugin-react-refresh'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import stylisticTsPlugin from '@stylistic/eslint-plugin-ts'
+import stylisticTsPlugin from '@stylistic/eslint-plugin'
 
 export default [
   {
