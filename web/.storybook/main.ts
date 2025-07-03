@@ -5,19 +5,14 @@ const config: StorybookConfig = {
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
-  addons: [
-    {
-      'name': '@storybook/addon-essentials',
-      'options': {
-        'docs': false,
-      },
-    },
-    '@storybook/addon-interactions',
-  ],
+
+  addons: [],
+
   framework: {
     'name': '@storybook/react-vite',
     'options': {},
   },
+
   viteFinal: async (config) => {
     const { default: tsconfigPaths } = await import('vite-tsconfig-paths');
 
@@ -32,9 +27,7 @@ const config: StorybookConfig = {
 
     return config;
   },
-  docs: {
-    autodocs: true,
-  },
+
   core: {
     disableTelemetry: true,
   },
