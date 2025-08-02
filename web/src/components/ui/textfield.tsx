@@ -6,6 +6,7 @@ import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError as FieldErrorBase, Text } from 'react-aria-components';
 import type { LooseEnum } from '@/types/generics';
+import useMergedRef from '@/hooks/useMergedRef';
 
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
@@ -42,16 +43,7 @@ function TextField({
   const internalRef = useRef<HTMLInputElement>(null);
 
   // Combine internal ref with forwarded ref
-  const inputRef = (node: HTMLInputElement | null) => {
-    if(internalRef.current !== node) {
-      internalRef.current = node;
-    }
-    if(typeof ref === 'function') {
-      ref(node);
-    } else if(ref) {
-      ref.current = node;
-    }
-  };
+  const inputRef = useMergedRef(ref, internalRef);
 
   return (
     <TextFieldBase
