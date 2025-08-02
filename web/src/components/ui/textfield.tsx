@@ -7,8 +7,6 @@ import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components
 import { TextField as TextFieldBase, Label, Input, FieldError as FieldErrorBase, Text } from 'react-aria-components';
 import type { LooseEnum } from '@/types/generics';
 
-type RequirementIndicator = LooseEnum<'*' | '(optional)'>;
-
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
   'children' |
@@ -24,7 +22,7 @@ React.RefAttributes<HTMLInputElement> {
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  requirementIndicator?: RequirementIndicator;
+  indicator?: LooseEnum<'*' | '(optional)'>;
 }
 
 function TextField({
@@ -36,7 +34,7 @@ function TextField({
   fullWidth = true,
   startAdornment,
   endAdornment,
-  requirementIndicator,
+  indicator,
   isRequired,
   ref,
   ...props
@@ -61,7 +59,7 @@ function TextField({
         'w-full flex flex-col gap-1.5',
         !fullWidth && 'w-auto',
       )}
-      isRequired={isRequired || requirementIndicator === '*'}
+      isRequired={isRequired || indicator === '*'}
       isInvalid={isInvalid}
       validationBehavior="aria"
       {...props}
@@ -72,11 +70,11 @@ function TextField({
           isInvalid ? 'text-red-600' : 'text-black',
         )}>
           {label}
-          {requirementIndicator === '*' && (
+          {indicator === '*' && (
             <span className="text-red-500 ml-1">*</span>
           )}
-          {requirementIndicator && requirementIndicator !== '*' && (
-            <span className="text-gray-400 ml-1">{requirementIndicator}</span>
+          {indicator && indicator !== '*' && (
+            <span className="text-gray-400 ml-1">{indicator}</span>
           )}
         </Label>
       )}
