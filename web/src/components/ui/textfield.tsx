@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useRef } from 'react';
+import { useRef, type PropsWithChildren } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
@@ -20,7 +20,7 @@ React.RefAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   errorMessage?: string;
-  description?: string;
+  description?: string | React.ReactElement<typeof FieldDescription>;
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
@@ -123,9 +123,15 @@ function TextField({
       </div>
 
       {description && (
-        <Text slot="description" className="text-sm text-gray-400">
-          {description}
-        </Text>
+        <>
+          {typeof description === 'string' ? (
+            <FieldDescription>
+              {description}
+            </FieldDescription>
+          ) : (
+            description
+          )}
+        </>
       )}
 
       {isInvalid && errorMessage && (
@@ -136,5 +142,13 @@ function TextField({
     </TextFieldBase>
   );
 }
+
+export const FieldDescription = ({ children }: PropsWithChildren) => {
+  return (
+    <Text slot="description" className="text-sm text-gray-400">
+      {children}
+    </Text>
+  );
+};
 
 export default TextField;
