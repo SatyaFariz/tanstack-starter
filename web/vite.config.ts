@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import tsConfigPaths from 'vite-tsconfig-paths';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
+import viteReact from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
   plugins: [
     svgr(),
     tsConfigPaths(),
-    tanstackStart(),
+    tanstackStart({ customViteReactPlugin: true }),
+    viteReact(),
   ],
 });
