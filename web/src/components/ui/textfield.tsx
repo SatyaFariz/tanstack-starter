@@ -20,7 +20,7 @@ React.RefAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   errorMessage?: string;
-  description?: string | React.ReactElement<typeof FieldDescription>;
+  description?: string | React.ReactElement<typeof FieldDescription> | null;
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
