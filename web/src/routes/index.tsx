@@ -15,7 +15,7 @@ function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center justify-center h-dvh p-6">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 max-w-[400px]">
         <Button
           onPress={() => {
             inputRef.current?.focus();
@@ -33,7 +33,8 @@ function Home() {
           requirementIndicator="(optional)"
           startAdornment="@"
           endAdornment={<span className="text-gray-400">kg</span>}
-          errorMessage="Please enter a valid email address"
+          isInvalid
+          errorMessage="Please enter a valid email address."
           description="Your email will not be shared with anyone."
         />
 

@@ -57,7 +57,10 @@ function TextField({
 
   return (
     <TextFieldBase
-      className={cn('w-full', !fullWidth && 'w-auto')}
+      className={cn(
+        'w-full flex flex-col gap-1.5',
+        !fullWidth && 'w-auto',
+      )}
       isRequired={isRequired || requirementIndicator === '*'}
       isInvalid={isInvalid}
       validationBehavior="aria"
@@ -65,7 +68,7 @@ function TextField({
     >
       {label && (
         <Label className={cn(
-          'block font-medium mb-2',
+          'block font-medium',
           isInvalid ? 'text-red-600' : 'text-primary',
         )}>
           {label}
@@ -120,13 +123,13 @@ function TextField({
       </div>
 
       {description && (
-        <Text slot="description" className="mt-1.5 text-sm text-gray-400">
+        <Text slot="description" className="text-sm text-gray-400">
           {description}
         </Text>
       )}
 
       {isInvalid && errorMessage && (
-        <FieldError className="mt-1.5 text-sm text-red-600">
+        <FieldError className="text-sm text-red-600">
           {errorMessage}
         </FieldError>
       )}
