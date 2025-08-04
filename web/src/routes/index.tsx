@@ -21,7 +21,7 @@ function Home() {
           onPress={() => {
             inputRef.current?.focus();
           }}
-          loading
+          // loading
         >
           Click Me
         </Button>
@@ -31,15 +31,16 @@ function Home() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          requirementIndicator="(optional)"
+          indicator="*"
           startAdornment="@"
           endAdornment={<span className="text-gray-400">kg</span>}
-          isInvalid
+          // isInvalid
           errorMessage="Please enter a valid email address."
-          description={
+          description={true ? null : (
             <FieldDescription>
-              Test<Link href="/">Link</Link>
+              Test <Link href="/">Link</Link>
             </FieldDescription>
+          )
           }
         />
 
