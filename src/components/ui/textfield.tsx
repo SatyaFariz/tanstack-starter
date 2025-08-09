@@ -64,7 +64,7 @@ function TextField({
       {label && (
         <Label className={cn(
           'block font-medium',
-          isInvalid ? 'text-red-600' : 'text-black',
+          isInvalid &&'text-red-600',
         )}>
           {label}
           {indicator === '*' && (
