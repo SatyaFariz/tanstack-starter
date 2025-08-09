@@ -6,6 +6,9 @@ import { useRef } from 'react';
 import Chip from '@/components/ui/chip';
 import Checkbox from '@/components/ui/checkbox';
 import Spinner from '@/components/ui/spinner';
+
+import { Link } from 'react-aria-components';
+
 export const Route = createFileRoute('/')({
   component: Home,
 });
@@ -15,6 +18,7 @@ function Home() {
   return (
     <div className="flex items-center justify-center h-dvh p-6">
       <div className="flex flex-col gap-4 max-w-[400px]">
+        <Link href="/backend">Login</Link>
         <Button
           onPress={() => {
             inputRef.current?.focus();
