@@ -48,6 +48,7 @@ const Button: React.FC<ButtonProps> = ({
         widthClasses,
         className,
       )}
+      isPending={isPending}
       {...props}
     >
       {isPending ? (
