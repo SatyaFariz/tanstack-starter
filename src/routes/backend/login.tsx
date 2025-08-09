@@ -71,7 +71,7 @@ function RouteComponent() {
                   <TextField
                     label="Email"
                     placeholder="Enter your email"
-                    requirementIndicator="*"
+                    indicator="*"
                     type="email"
                     defaultValue={field.state.value}
                     onChange={(val) => field.handleChange(val)}
@@ -98,7 +98,7 @@ function RouteComponent() {
                   <TextField
                     label="Password"
                     placeholder="Enter your password"
-                    requirementIndicator="*"
+                    indicator="*"
                     type="password"
                     defaultValue={field.state.value}
                     onChange={(val) => field.handleChange(val)}
