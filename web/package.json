@@ -19,9 +19,9 @@
     "drizzle:push": "drizzle-kit push:pg",
     "drizzle:seed": "tsx app/lib/db/seed.ts",
     "better-auth:generate": "npx @better-auth/cli@latest generate --output ./db/schemas/auth.ts",
-    "update-all": "node -e 'const p=require(\"./package.json\"); const deps=[...Object.keys(p.dependencies||{}), ...Object.keys(p.devDependencies||{})]; process.stdout.write(deps.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add",
-    "update-deps": "node -e 'const p=require(\"./package.json\"); const deps=Object.keys(p.dependencies||{}); process.stdout.write(deps.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add",
-    "update-dev": "node -e 'const p=require(\"./package.json\"); const devs=Object.keys(p.devDependencies||{}); process.stdout.write(devs.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add -d"
+    "update-all": "bun -e 'const p=require(\"./package.json\"); const deps=[...Object.keys(p.dependencies||{}), ...Object.keys(p.devDependencies||{})]; process.stdout.write(deps.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add",
+    "update-deps": "bun -e 'const p=require(\"./package.json\"); const deps=Object.keys(p.dependencies||{}); process.stdout.write(deps.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add",
+    "update-dev": "bun -e 'const p=require(\"./package.json\"); const devs=Object.keys(p.devDependencies||{}); process.stdout.write(devs.map(d=>`${d}@latest`).join(\" \"));' | xargs bun add -d"
   },
   "devDependencies": {
     "@storybook/addon-onboarding": "^9.1.1",
