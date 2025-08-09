@@ -45,6 +45,11 @@ function TextField({
   // Combine internal ref with forwarded ref
   const inputRef = useMergedRef(ref, internalRef);
 
+  const handleAdornmentMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    internalRef.current?.focus();
+  };
+
   return (
     <TextFieldBase
       className={cn(
@@ -81,7 +86,7 @@ function TextField({
         {startAdornment && (
           <div
             className="flex items-center pl-3 text-gray-400 cursor-text"
-            onClick={() => internalRef.current?.focus()}
+            onMouseDown={handleAdornmentMouseDown}
             aria-hidden="true"
           >
             {startAdornment}
@@ -104,7 +109,7 @@ function TextField({
         {endAdornment && (
           <div
             className="flex items-center pr-3 text-gray-400 cursor-text"
-            onClick={() => internalRef.current?.focus()}
+            onMouseDown={handleAdornmentMouseDown}
             aria-hidden="true"
           >
             {endAdornment}
