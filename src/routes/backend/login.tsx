@@ -104,6 +104,7 @@ function RouteComponent() {
                     onChange={(val) => field.handleChange(val)}
                     errorMessage={field.state.meta.errors.join(', ')}
                     isInvalid={field.state.meta.errors.length > 0}
+                    description="If you forgot your password, please contact admin for a new password."
                   />
                 </div>
               )}
@@ -128,7 +129,7 @@ function RouteComponent() {
           </form>
 
           {/* Additional Links */}
-          <div className="mt-8 pt-6 border-t border-slate-200">
+          {/* <div className="mt-8 pt-6 border-t border-slate-200">
             <div className="text-center">
               <a
                 href="#"
@@ -137,7 +138,7 @@ function RouteComponent() {
                 Forgot your password?
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}
