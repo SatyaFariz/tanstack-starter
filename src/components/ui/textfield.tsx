@@ -81,7 +81,7 @@ function TextField({
           'flex items-center border rounded-md bg-white overflow-clip cursor-text h-10',
           isInvalid
             ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
-            : 'border-gray-300 focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
+            : 'border-gray-300 focus-within:ring-1 focus-within:ring-gray-300 focus-within:border-gray-300',
           'disabled:bg-gray-100',
           startAdornment && 'pl-3',
           endAdornment && 'pr-3',
@@ -103,7 +103,6 @@ function TextField({
             'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
             startAdornment ? 'pl-2' : 'pl-3',
             endAdornment ? 'pr-2' : 'pr-3',
-            isInvalid ? 'text-red-600' : 'text-primary',
             'disabled:text-gray-400 disabled:cursor-not-allowed',
             'placeholder:text-gray-400',
             className,
