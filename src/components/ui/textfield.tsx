@@ -83,12 +83,14 @@ function TextField({
             ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
             : 'border-gray-300 focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
           'disabled:bg-gray-100',
+          startAdornment && 'pl-3',
+          endAdornment && 'pr-3',
         )}
         onMouseDown={handleAdornmentMouseDown}
       >
         {startAdornment && (
           <div
-            className="flex items-center pl-3 text-gray-400"
+            className="flex items-center text-gray-400"
             aria-hidden="true"
           >
             {startAdornment}
@@ -110,7 +112,7 @@ function TextField({
 
         {endAdornment && (
           <div
-            className="flex items-center pr-3 text-gray-400"
+            className="flex items-center text-gray-400"
             aria-hidden="true"
           >
             {endAdornment}
