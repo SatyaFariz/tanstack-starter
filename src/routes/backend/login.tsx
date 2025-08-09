@@ -6,7 +6,7 @@ import Button from '@/components/ui/button';
 import { z } from 'zod';
 
 // Email validation schema using Zod
-const emailSchema = z.string().email();
+const emailSchema = z.email();
 
 export const Route = createFileRoute('/backend/login')({
   component: RouteComponent,
