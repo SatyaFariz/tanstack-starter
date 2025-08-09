@@ -78,10 +78,10 @@ function TextField({
 
       <div
         className={cn(
-          'flex items-center border rounded-md bg-white overflow-clip cursor-text',
+          'flex items-center border rounded-lg bg-white overflow-clip cursor-text',
           isInvalid
             ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
-            : 'border-divider focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
+            : 'border-gray-300 focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
           'disabled:bg-gray-100',
         )}
         onMouseDown={handleAdornmentMouseDown}
