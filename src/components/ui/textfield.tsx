@@ -4,7 +4,7 @@ import type React from 'react';
 import { useRef, type PropsWithChildren } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
-import { TextField as TextFieldBase, Label, Input, FieldError as FieldErrorBase, Text } from 'react-aria-components';
+import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
 import type { LooseEnum } from '@/types/generics';
 import useMergedRef from '@/hooks/useMergedRef';
 
@@ -18,7 +18,7 @@ interface TextFieldProps extends Omit<
 React.RefAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
-  errorMessage?: string | React.ReactElement<typeof FieldError> | null;
+  errorMessage?: string | null;
   description?: string | React.ReactElement<typeof FieldDescription> | null;
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
@@ -133,7 +133,7 @@ function TextField({
       )}
 
       {isInvalid && errorMessage && (
-        <FieldError>
+        <FieldError className="text-sm text-red-600">
           {errorMessage}
         </FieldError>
       )}
@@ -146,14 +146,6 @@ export const FieldDescription = ({ children }: PropsWithChildren) => {
     <Text slot="description" className="text-sm text-gray-400">
       {children}
     </Text>
-  );
-};
-
-export const FieldError = ({ children }: PropsWithChildren) => {
-  return (
-    <FieldErrorBase className="text-sm text-red-600">
-      {children}
-    </FieldErrorBase>
   );
 };
 
