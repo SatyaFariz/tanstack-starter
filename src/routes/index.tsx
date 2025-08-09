@@ -1,13 +1,11 @@
 // app/routes/index.tsx
 import { createFileRoute } from '@tanstack/react-router';
 import Button from '@/components/ui/button';
-import TextField, { FieldDescription } from '@/components/ui/textfield';
+import TextField from '@/components/ui/textfield';
 import { useRef } from 'react';
 import Chip from '@/components/ui/chip';
 import Checkbox from '@/components/ui/checkbox';
 import Spinner from '@/components/ui/spinner';
-import { Link } from 'react-aria-components';
-
 export const Route = createFileRoute('/')({
   component: Home,
 });
@@ -34,14 +32,9 @@ function Home() {
           indicator="*"
           startAdornment="@"
           endAdornment={<span className="text-gray-400">kg</span>}
-          // isInvalid
+          isInvalid
           errorMessage="Please enter a valid email address."
-          description={true ? null : (
-            <FieldDescription>
-              Test <Link href="/">Link</Link>
-            </FieldDescription>
-          )
-          }
+          description="This is just a dummy description"
         />
 
         <div className="flex gap-2 flex-wrap max-w-md">

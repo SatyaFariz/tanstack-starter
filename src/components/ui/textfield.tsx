@@ -53,7 +53,7 @@ function TextField({
   return (
     <TextFieldBase
       className={cn(
-        'w-full flex flex-col gap-1.5',
+        'w-full flex flex-col gap-1',
         !fullWidth && 'w-auto',
       )}
       isRequired={isRequired || indicator === '*'}
@@ -63,7 +63,7 @@ function TextField({
     >
       {label && (
         <Label className={cn(
-          'block font-medium',
+          'block font-medium text-sm',
           isInvalid &&'text-red-600',
         )}>
           {label}
@@ -78,7 +78,7 @@ function TextField({
 
       <div
         className={cn(
-          'flex items-center border rounded-lg bg-white overflow-clip cursor-text',
+          'flex items-center border rounded-md bg-white overflow-clip cursor-text h-10',
           isInvalid
             ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
             : 'border-gray-300 focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/30',
@@ -90,7 +90,7 @@ function TextField({
       >
         {startAdornment && (
           <div
-            className="flex items-center text-gray-400"
+            className="flex items-center text-gray-400 text-base"
             aria-hidden="true"
           >
             {startAdornment}
@@ -100,7 +100,7 @@ function TextField({
         <Input
           ref={inputRef}
           className={cn(
-            'flex-1 py-2.5 bg-transparent border-0 focus:outline-none focus:ring-0',
+            'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
             startAdornment ? 'pl-2' : 'pl-3',
             endAdornment ? 'pr-2' : 'pr-3',
             isInvalid ? 'text-red-600' : 'text-primary',
@@ -112,7 +112,7 @@ function TextField({
 
         {endAdornment && (
           <div
-            className="flex items-center text-gray-400"
+            className="flex items-center text-gray-400 text-base"
             aria-hidden="true"
           >
             {endAdornment}
