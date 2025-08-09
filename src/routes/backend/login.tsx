@@ -117,8 +117,8 @@ function RouteComponent() {
                 <div className="pt-4">
                   <Button
                     type="submit"
-                    disabled={!canSubmit}
-                    loading={isSubmitting}
+                    isDisabled={!canSubmit}
+                    isPending={true}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
                   >
                     {isSubmitting ? 'Signing in...' : 'Sign In'}

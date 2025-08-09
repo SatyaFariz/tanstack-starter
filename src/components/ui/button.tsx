@@ -1,34 +1,25 @@
 import type React from 'react';
 import cn from '@/utils/cn';
-import { Button as ButtonBase, type PressEvent } from 'react-aria-components';
+import { Button as ButtonBase } from 'react-aria-components';
 import Spinner from './spinner';
 
-interface ButtonProps extends Omit<React.RefAttributes<HTMLButtonElement>, 'onClick'>,
-                              Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+interface ButtonProps extends Omit<React.ComponentProps<typeof ButtonBase>, 'onClick'> {
   fullWidth?: boolean;
   variant?: 'primary' | 'outlined' | 'secondary' | 'text';
-  loading?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg';
-  formAction?: string;
-  value?: string;
-  onPress?: (e: PressEvent) => void;
-  onFocus?: (e: React.FocusEvent<Element, Element>) => void;
-  onBlur?: (e: React.FocusEvent<Element, Element>) => void;
-  onFocusChange?: (isFocused: boolean) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   fullWidth = false,
   variant = 'primary',
-  loading = false,
   startIcon,
   endIcon,
   size = 'md',
   className,
-  disabled,
+  isPending,
   ...props
 }) => {
   const baseClasses = 'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 rounded-lg';
@@ -57,11 +48,9 @@ const Button: React.FC<ButtonProps> = ({
         widthClasses,
         className,
       )}
-      isDisabled={disabled}
-      isPending={loading}
       {...props}
     >
-      {loading ? (
+      {isPending ? (
         <Spinner
           variant="ring"
           size="sm"
