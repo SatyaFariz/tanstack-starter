@@ -103,9 +103,7 @@ function TextField({
     const nextType = type; // comes from ...props you pass to <Input />
     prevTypeRef.current = nextType;
 
-    const changed =
-      (prevType === 'password' && nextType === 'text') ||
-      (prevType === 'text' && nextType === 'password');
+    const changed = nextType !== prevType;
 
     if(!changed) return;
 
