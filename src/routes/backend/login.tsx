@@ -1,9 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
-import TextField from '@/components/ui/textfield';
+import TextField, { FieldDescription } from '@/components/ui/textfield';
 import Button from '@/components/ui/button';
 import { z } from 'zod';
+import Link from '@/components/ui/link';
 
 // Email validation schema using Zod
 const emailSchema = z.email();
@@ -104,7 +105,11 @@ function RouteComponent() {
                     onChange={(val) => field.handleChange(val)}
                     errorMessage={field.state.meta.errors.join(', ')}
                     isInvalid={field.state.meta.errors.length > 0}
-                    description="If you forgot your password, please contact admin for a new password."
+                    description={
+                      <FieldDescription>
+                        If you forgot your password, please contact admin for a new password. <Link>Learn more.</Link>
+                      </FieldDescription>
+                    }
                   />
                 </div>
               )}
