@@ -132,7 +132,7 @@ function TextField({
       )}
 
       {isInvalid && errorMessage && (
-        <FieldError className="text-sm text-red-600">
+        <FieldError className="text-xs text-red-600">
           {errorMessage}
         </FieldError>
       )}
@@ -142,7 +142,7 @@ function TextField({
 
 export const FieldDescription = ({ children }: PropsWithChildren) => {
   return (
-    <Text slot="description" className="text-sm text-gray-400">
+    <Text slot="description" className="text-xs text-gray-400">
       {children}
     </Text>
   );
