@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useRef, type PropsWithChildren } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
@@ -15,13 +15,19 @@ function isIconButton(element: React.ReactNode) {
   return true;
 }
 
-function cloneIconButton(element: React.ReactNode) {
+function cloneIconButton(element: React.ReactNode, inputRef: React.RefObject<HTMLInputElement | null>, caretRef: React.RefObject<{
+    start: number | null;
+    end: number | null;
+}>) {
   const original = element as React.ReactElement<React.ComponentProps<typeof IconButton>>;
   return React.cloneElement(original, {
     ...original.props,
     size: 'sm',
     onMouseDown: (e) => {
       e.preventDefault();
+      const inputElement = inputRef.current;
+      caretRef.current.start = inputElement?.selectionStart ?? null;
+      caretRef.current.end = inputElement?.selectionEnd ?? null;
     },
   });
 }
@@ -55,13 +61,23 @@ function TextField({
   endAdornment,
   indicator,
   isRequired,
+  type,
   ref,
   ...props
 }: TextFieldProps) {
   const internalRef = useRef<HTMLInputElement>(null);
-
+console.log('rerenders')
   // Combine internal ref with forwarded ref
   const inputRef = useMergedRef(ref, internalRef);
+
+  // 1) Where we remember the caret *before* the toggle
+  const caretRef = useRef<{ start: number | null; end: number | null }>({
+    start: null,
+    end: null,
+  });
+
+  // 2) Track previous `type` so we know a type flip just happened
+  const prevTypeRef = useRef<string | undefined>(type);
 
   const handleFieldMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if(e.target === internalRef.current) return;
@@ -72,17 +88,48 @@ function TextField({
   const endIconButton = useMemo(() => {
     if(!isIconButton(endAdornment)) return null;
 
-    return cloneIconButton(endAdornment);
+    return cloneIconButton(endAdornment, internalRef, caretRef);
   }, [endAdornment]);
 
   const startIconButton = useMemo(() => {
     if(!isIconButton(startAdornment)) return null;
 
-    return cloneIconButton(startAdornment);
+    return cloneIconButton(startAdornment, internalRef, caretRef);
   }, [startAdornment]);
+
+  // 3) After render, if the `type` changed (password <-> text), restore caret
+  useLayoutEffect(() => {
+    const prevType = prevTypeRef.current;
+    const nextType = type; // comes from ...props you pass to <Input />
+    prevTypeRef.current = nextType;
+
+    const changed =
+      (prevType === 'password' && nextType === 'text') ||
+      (prevType === 'text' && nextType === 'password');
+
+    if(!changed) return;
+
+    const el = internalRef.current;
+    const { start, end } = caretRef.current;
+
+    // If we have a saved caret, restore it; otherwise put caret at end
+    if(el) {
+      el.focus({ preventScroll: true });
+      const s = start ?? el.value.length;
+      const e = end ?? s;
+      // RAF helps in some browsers that apply type change slightly later
+      requestAnimationFrame(() => {
+        try { el.setSelectionRange(s, e); } catch {}
+      });
+    }
+
+    // clear saved caret
+    caretRef.current.start = caretRef.current.end = null;
+  }, [type]);
 
   return (
     <TextFieldBase
+      key="test"
       className={cn(
         'w-full flex flex-col gap-1',
         !fullWidth && 'w-auto',
@@ -90,6 +137,7 @@ function TextField({
       isRequired={isRequired || indicator === '*'}
       isInvalid={isInvalid}
       validationBehavior="aria"
+      type={type}
       {...props}
     >
       {label && (

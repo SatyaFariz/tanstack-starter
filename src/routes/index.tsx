@@ -18,6 +18,7 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   const [showsPassword, setShowsPassword] = useState(false);
+  const [text, setText] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center justify-center h-dvh p-6">
@@ -27,7 +28,7 @@ function Home() {
         </IconButton>
         <Button
           onPress={() => {
-            inputRef.current?.focus();
+            setShowsPassword((prev) => !prev);
           }}
           // loading
         >
@@ -39,6 +40,8 @@ function Home() {
           label="Password"
           type={showsPassword ? 'text' : 'password'}
           placeholder="Enter your password"
+          value={text}
+          onChange={setText}
           indicator="*"
           startAdornment={
             <Key size={18}/>
