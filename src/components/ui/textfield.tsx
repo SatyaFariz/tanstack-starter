@@ -119,6 +119,7 @@ function TextField({
           startAdornment && 'pl-3',
           endAdornment && 'pr-3',
           startIconButton && 'pl-1',
+          endIconButton && 'pr-1',
         )}
         onMouseDown={handleFieldMouseDown}
       >
@@ -138,6 +139,7 @@ function TextField({
             startAdornment ? 'pl-2' : 'pl-3',
             endAdornment ? 'pr-2' : 'pr-3',
             startIconButton ? 'pl-1' : 'pl-3',
+            endIconButton ? 'pr-1' : 'pr-3',
             'disabled:text-gray-400 disabled:cursor-not-allowed',
             'placeholder:text-gray-400',
             className,

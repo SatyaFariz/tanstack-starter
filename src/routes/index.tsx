@@ -2,13 +2,13 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Button from '@/components/ui/button';
 import TextField, { FieldDescription } from '@/components/ui/textfield';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Chip from '@/components/ui/chip';
 import Checkbox from '@/components/ui/checkbox';
 import Spinner from '@/components/ui/spinner';
 import IconButton from '@/components/ui/icon-button';
 
-import { Mail, Info } from 'lucide-react';
+import { Mail, Eye, Key } from 'lucide-react';
 
 import Link from '@/components/ui/link';
 
@@ -17,6 +17,7 @@ export const Route = createFileRoute('/')({
 });
 
 function Home() {
+  const [showsPassword, setShowsPassword] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center justify-center h-dvh p-6">
@@ -35,37 +36,19 @@ function Home() {
 
         <TextField
           ref={inputRef}
-          label="Email"
-          type="email"
-          placeholder="Enter your email"
+          label="Password"
+          type={showsPassword ? 'text' : 'password'}
+          placeholder="Enter your password"
           indicator="*"
           startAdornment={
+            <Key size={18}/>
+          }
+          endAdornment={
             <IconButton size="lg" onPress={() => alert('test')}>
-              <Info size={18}/>
+              <Eye size={18}/>
             </IconButton>
           }
-          endAdornment={<span className="text-gray-400">kg</span>}
-          isInvalid
-          errorMessage="Please enter a valid email address."
-          // description="This is just a dummy description"
-          description={
-            <FieldDescription>
-              Password <Link>Password</Link>
-            </FieldDescription>
-          }
-        />
-
-        <TextField
-          ref={inputRef}
-          label="Email"
-          type="email"
-          placeholder="Enter your email"
-          indicator="*"
-          startAdornment={
-              <Info size={18}/>
-          }
-          endAdornment={<span className="text-gray-400">kg</span>}
-          isInvalid
+          // isInvalid
           errorMessage="Please enter a valid email address."
           // description="This is just a dummy description"
           description={
