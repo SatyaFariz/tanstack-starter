@@ -64,6 +64,7 @@ function TextField({
   const inputRef = useMergedRef(ref, internalRef);
 
   const handleFieldMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if(e.target === internalRef.current) return;
     e.preventDefault();
     internalRef.current?.focus();
   };

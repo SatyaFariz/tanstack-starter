@@ -44,7 +44,7 @@ function Home() {
             <Key size={18}/>
           }
           endAdornment={
-            <IconButton size="lg" onPress={() => alert('test')}>
+            <IconButton size="lg" onPress={() => setShowsPassword((prev) => !prev)}>
               <Eye size={18}/>
             </IconButton>
           }
