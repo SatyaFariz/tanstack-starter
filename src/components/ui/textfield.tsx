@@ -9,6 +9,12 @@ import type { LooseEnum } from '@/types/generics';
 import useMergedRef from '@/hooks/useMergedRef';
 import IconButton from './icon-button';
 
+function isIconButton(element: React.ReactNode) {
+  if(!element || typeof element === 'string' || (React.isValidElement(element) && element.type !== IconButton)) return false;
+
+  return true;
+}
+
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
   'children' |
@@ -52,13 +58,13 @@ function TextField({
   };
 
   const endIconButton = useMemo(() => {
-    if(!endAdornment || typeof endAdornment === 'string' || (React.isValidElement(endAdornment) && endAdornment.type !== IconButton)) return null;
+    if(!isIconButton(endAdornment)) return null;
 
     return React.cloneElement(endAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
   }, [endAdornment]);
 
   const startIconButton = useMemo(() => {
-    if(!startAdornment || typeof startAdornment === 'string' || (React.isValidElement(startAdornment) && startAdornment.type !== IconButton)) return null;
+    if(!isIconButton(startAdornment)) return null;
 
     return React.cloneElement(startAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
   }, [startAdornment]);
