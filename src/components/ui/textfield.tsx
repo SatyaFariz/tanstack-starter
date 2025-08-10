@@ -66,7 +66,7 @@ function TextField({
   ...props
 }: TextFieldProps) {
   const internalRef = useRef<HTMLInputElement>(null);
-console.log('rerenders')
+
   // Combine internal ref with forwarded ref
   const inputRef = useMergedRef(ref, internalRef);
 
