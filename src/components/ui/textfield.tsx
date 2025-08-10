@@ -132,7 +132,7 @@ function TextField({
       )}
 
       {isInvalid && errorMessage && (
-        <FieldError className="text-xs text-red-600">
+        <FieldError className={cn('text-xs text-red-600', description && 'mt-1')}>
           {errorMessage}
         </FieldError>
       )}

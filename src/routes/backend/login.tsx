@@ -88,7 +88,7 @@ function RouteComponent() {
               validators={{
                 onChange: ({ value }) => {
                   if(!value.trim()) {
-                    return 'Password is required';
+                    return 'This field is required!';
                   }
                   return undefined;
                 },
