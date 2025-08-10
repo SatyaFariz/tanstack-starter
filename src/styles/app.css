@@ -45,3 +45,15 @@
     opacity: 0.2;
   }
 }
+
+@layer utilities {
+  .scrollbar-none {
+    /* Chrome, Safari, Edge */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
