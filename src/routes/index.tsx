@@ -23,9 +23,9 @@ function Home() {
   return (
     <div className="flex items-center justify-center h-dvh p-6">
       <div className="flex flex-col gap-4 max-w-[400px]">
-        <IconButton>
+        <Link to="/backend">
           <Mail/>
-        </IconButton>
+        </Link>
         <Button
           onPress={() => {
             setShowsPassword((prev) => !prev);
