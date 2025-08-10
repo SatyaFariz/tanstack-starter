@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
 import TextField, { FieldDescription } from '@/components/ui/textfield';
+import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';
 import { z } from 'zod';
 import Link from '@/components/ui/link';
@@ -100,11 +101,10 @@ function RouteComponent() {
             >
               {(field) => (
                 <div className="space-y-2">
-                  <TextField
+                  <PasswordField
                     label="Password"
                     placeholder="Enter your password"
                     indicator="*"
-                    type="password"
                     defaultValue={field.state.value}
                     onChange={(val) => field.handleChange(val)}
                     errorMessage={field.state.meta.errors.join(', ')}
