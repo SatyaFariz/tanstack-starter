@@ -15,6 +15,17 @@ function isIconButton(element: React.ReactNode) {
   return true;
 }
 
+function cloneIconButton(element: React.ReactNode) {
+  const original = element as React.ReactElement<React.ComponentProps<typeof IconButton>>;
+  return React.cloneElement(original, {
+    ...original.props,
+    size: 'sm',
+    onMouseDown: (e) => {
+      e.preventDefault();
+    },
+  });
+}
+
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
   'children' |
@@ -60,27 +71,13 @@ function TextField({
   const endIconButton = useMemo(() => {
     if(!isIconButton(endAdornment)) return null;
 
-    const original = endAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>;
-    return React.cloneElement(original, {
-      ...original.props,
-      size: 'sm',
-      onMouseDown: (e) => {
-        e.preventDefault();
-      },
-    });
+    return cloneIconButton(endAdornment);
   }, [endAdornment]);
 
   const startIconButton = useMemo(() => {
     if(!isIconButton(startAdornment)) return null;
 
-    const original = startAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>;
-    return React.cloneElement(original, {
-      ...original.props,
-      size: 'sm',
-      onMouseDown: (e) => {
-        e.preventDefault();
-      },
-    });
+    return cloneIconButton(startAdornment);
   }, [startAdornment]);
 
   return (
