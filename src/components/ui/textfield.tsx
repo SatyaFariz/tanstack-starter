@@ -46,7 +46,7 @@ function TextField({
   // Combine internal ref with forwarded ref
   const inputRef = useMergedRef(ref, internalRef);
 
-  const handleAdornmentMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleFieldMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     internalRef.current?.focus();
   };
@@ -100,7 +100,7 @@ function TextField({
           endAdornment && 'pr-3',
           startIconButton && 'pl-1',
         )}
-        onMouseDown={handleAdornmentMouseDown}
+        onMouseDown={handleFieldMouseDown}
       >
         {startAdornment && (
           <div
