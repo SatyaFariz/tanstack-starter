@@ -60,13 +60,27 @@ function TextField({
   const endIconButton = useMemo(() => {
     if(!isIconButton(endAdornment)) return null;
 
-    return React.cloneElement(endAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
+    const original = endAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>;
+    return React.cloneElement(original, {
+      ...original.props,
+      size: 'sm',
+      onMouseDown: (e) => {
+        e.preventDefault();
+      },
+    });
   }, [endAdornment]);
 
   const startIconButton = useMemo(() => {
     if(!isIconButton(startAdornment)) return null;
 
-    return React.cloneElement(startAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
+    const original = startAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>;
+    return React.cloneElement(original, {
+      ...original.props,
+      size: 'sm',
+      onMouseDown: (e) => {
+        e.preventDefault();
+      },
+    });
   }, [startAdornment]);
 
   return (
