@@ -11,6 +11,7 @@ import IconButton from '@/components/ui/icon-button';
 import { Mail, Eye, Key } from 'lucide-react';
 
 import Link from '@/components/ui/link';
+import Switch from '@/components/ui/switch';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -74,6 +75,13 @@ function Home() {
           >
             Accept Terms and Conditions
           </Checkbox>
+        </div>
+
+        <div>
+          <Switch
+          >
+            Accept Terms and Conditions
+          </Switch>
         </div>
 
         <div>

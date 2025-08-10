@@ -3,7 +3,6 @@ import cn from '@/utils/cn';
 
 interface CheckboxProps extends Omit<CheckboxPropsBase, 'children'> {
   children?: React.ReactNode;
-  className?: string;
 }
 
 export function Checkbox(
