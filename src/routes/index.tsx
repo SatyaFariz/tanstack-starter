@@ -8,7 +8,7 @@ import Checkbox from '@/components/ui/checkbox';
 import Spinner from '@/components/ui/spinner';
 import IconButton from '@/components/ui/icon-button';
 
-import { Mail } from 'lucide-react';
+import { Mail, Info } from 'lucide-react';
 
 import Link from '@/components/ui/link';
 
@@ -40,9 +40,29 @@ function Home() {
           placeholder="Enter your email"
           indicator="*"
           startAdornment={
-            <IconButton>
-              <Mail size={18}/>
+            <IconButton size="lg" onPress={() => alert('test')}>
+              <Info size={18}/>
             </IconButton>
+          }
+          endAdornment={<span className="text-gray-400">kg</span>}
+          isInvalid
+          errorMessage="Please enter a valid email address."
+          // description="This is just a dummy description"
+          description={
+            <FieldDescription>
+              Password <Link>Password</Link>
+            </FieldDescription>
+          }
+        />
+
+        <TextField
+          ref={inputRef}
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          indicator="*"
+          startAdornment={
+              <Info size={18}/>
           }
           endAdornment={<span className="text-gray-400">kg</span>}
           isInvalid

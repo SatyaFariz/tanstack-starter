@@ -12,7 +12,7 @@ const IconButton = ({
   ...props
 }: IconButtonProps) => {
   const sizeClasses = {
-    sm: 'w-8 h-8 text-sm',
+    sm: 'w-8.5 h-8.5 text-sm',
     md: 'w-10 h-10 text-base',
     lg: 'w-12 h-12 text-lg',
   };
@@ -61,5 +61,7 @@ const IconButton = ({
     </ButtonBase>
   );
 };
+
+// IconButton.displayName = 'IconButton';
 
 export default IconButton;

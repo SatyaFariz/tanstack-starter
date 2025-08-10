@@ -1,12 +1,13 @@
 'use client';
 
-import type React from 'react';
+import React, { useMemo } from 'react';
 import { useRef, type PropsWithChildren } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
 import type { LooseEnum } from '@/types/generics';
 import useMergedRef from '@/hooks/useMergedRef';
+import IconButton from './icon-button';
 
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
@@ -50,6 +51,18 @@ function TextField({
     internalRef.current?.focus();
   };
 
+  const endIconButton = useMemo(() => {
+    if(!endAdornment || typeof endAdornment === 'string' || (React.isValidElement(endAdornment) && endAdornment.type !== IconButton)) return null;
+
+    return React.cloneElement(endAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
+  }, [endAdornment]);
+
+  const startIconButton = useMemo(() => {
+    if(!startAdornment || typeof startAdornment === 'string' || (React.isValidElement(startAdornment) && startAdornment.type !== IconButton)) return null;
+
+    return React.cloneElement(startAdornment as React.ReactElement<React.ComponentProps<typeof IconButton>>, { size: 'sm' });
+  }, [startAdornment]);
+
   return (
     <TextFieldBase
       className={cn(
@@ -85,6 +98,7 @@ function TextField({
           'disabled:bg-gray-100',
           startAdornment && 'pl-3',
           endAdornment && 'pr-3',
+          startIconButton && 'pl-1',
         )}
         onMouseDown={handleAdornmentMouseDown}
       >
@@ -93,7 +107,7 @@ function TextField({
             className="flex items-center text-gray-400 text-base"
             aria-hidden="true"
           >
-            {startAdornment}
+            {startIconButton || startAdornment}
           </div>
         )}
 
@@ -103,6 +117,7 @@ function TextField({
             'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
             startAdornment ? 'pl-2' : 'pl-3',
             endAdornment ? 'pr-2' : 'pr-3',
+            startIconButton ? 'pl-1' : 'pl-3',
             'disabled:text-gray-400 disabled:cursor-not-allowed',
             'placeholder:text-gray-400',
             className,
@@ -114,7 +129,7 @@ function TextField({
             className="flex items-center text-gray-400 text-base"
             aria-hidden="true"
           >
-            {endAdornment}
+            {endIconButton || endAdornment}
           </div>
         )}
       </div>
