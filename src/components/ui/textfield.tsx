@@ -112,7 +112,6 @@ function TextField({
 
     // If we have a saved caret, restore it; otherwise put caret at end
     if(el) {
-      el.focus({ preventScroll: true });
       const s = start ?? el.value.length;
       const e = end ?? s;
       // RAF helps in some browsers that apply type change slightly later
