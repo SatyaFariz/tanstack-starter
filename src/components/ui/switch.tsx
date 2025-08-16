@@ -23,15 +23,15 @@ const Switch = ({
       {({ isSelected }) => (
         <>
           <div
-            className={`w-12 h-7 rounded-full px-1 inline-flex items-center transition-colors duration-200 ${
+            className={`w-10 h-6 rounded-full px-1 inline-flex items-center transition-colors duration-200 ${
               isSelected
                 ? 'bg-blue-500'
                 : 'bg-gray-300'
             }`}
           >
             <span
-              className={`w-5 h-5 bg-white rounded-full shadow-small transition-transform duration-200 ${
-                isSelected ? 'translate-x-5' : 'translate-x-0'
+              className={`w-4 h-4 bg-white rounded-full shadow-small transition-transform duration-200 ${
+                isSelected ? 'translate-x-4' : 'translate-x-0'
               }`}
             />
           </div>
