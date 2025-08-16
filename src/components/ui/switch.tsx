@@ -10,7 +10,9 @@ const Switch = ({
 }: SwitchProps) => {
   return (
     <SwitchBase>
-      <div className="indicator" />
+      <div className="w-12 h-7 bg-blue-500 rounded-full px-1 inline-flex items-center justify-start">
+        <span className="w-5 h-5 bg-white rounded-full shadow-small"/>
+      </div>
       {children}
     </SwitchBase>
   );
