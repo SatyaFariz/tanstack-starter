@@ -5,9 +5,9 @@ import { useRef, type PropsWithChildren } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
-import type { LooseEnum } from '@/types/generics';
 import useMergedRef from '@/hooks/useMergedRef';
 import IconButton from './icon-button';
+import type { FieldIndicator } from '@/types/component';
 
 function isIconButton(element: React.ReactNode) {
   if(!element || typeof element === 'string' || (React.isValidElement(element) && element.type !== IconButton)) return false;
@@ -47,7 +47,7 @@ React.RefAttributes<HTMLInputElement> {
   fullWidth?: boolean;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  indicator?: LooseEnum<'*' | '(optional)'>;
+  indicator?: FieldIndicator;
 }
 
 function TextField({
