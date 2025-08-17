@@ -1,14 +1,17 @@
+import cn from '@/utils/cn';
 import type React from 'react';
 import { Button as ButtonBase } from 'react-aria-components';
 
-interface IconButtonProps extends Omit<React.ComponentProps<typeof ButtonBase>, 'onClick'> {
+interface IconButtonProps extends React.PropsWithChildren, Omit<React.ComponentProps<typeof ButtonBase>, 'onClick' | 'children'> {
   size?: 'sm' | 'md' | 'lg';
+  rippleAbsolute?: boolean;
 }
 
 const IconButton = ({
   children,
   className = '',
   size = 'md',
+  rippleAbsolute = false,
   ...props
 }: IconButtonProps) => {
   const sizeClasses = {
@@ -52,6 +55,24 @@ const IconButton = ({
     className,
   ].filter(Boolean).join(' ');
 
+  if(rippleAbsolute) {
+
+    return (
+      <div className="relative inline-flex">
+        <ButtonBase
+          className={cn(
+            baseClasses,
+            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0',
+          )}
+          {...props}
+        />
+        <div className="pointer-events-none relative z-10">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ButtonBase
       className={baseClasses}
@@ -61,7 +82,5 @@ const IconButton = ({
     </ButtonBase>
   );
 };
-
-// IconButton.displayName = 'IconButton';
 
 export default IconButton;
