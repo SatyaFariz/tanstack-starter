@@ -57,12 +57,6 @@ function TextField({
   // 2) Track previous `type` so we know a type flip just happened
   const prevTypeRef = useRef<string | undefined>(type);
 
-  const handleFieldMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if(e.target === internalRef.current) return;
-    e.preventDefault();
-    internalRef.current?.focus();
-  };
-
   // 3) After render, if the `type` changed (password <-> text), restore caret
   useLayoutEffect(() => {
     const prevType = prevTypeRef.current;
@@ -125,16 +119,13 @@ function TextField({
             ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
             : 'border-gray-300 focus-within:ring-1 focus-within:ring-gray-300 focus-within:border-gray-300',
           'disabled:bg-gray-100',
-          startAdornment && 'pl-3',
-          endAdornment && 'pr-3',
         )}
-        onMouseDown={handleFieldMouseDown}
       >
         {startAdornment && (
           <FieldAdornment
             textInputRef={internalRef}
             caretRef={caretRef}
-            className="pr-1"
+            className="pl-3"
           >
             {startAdornment}
           </FieldAdornment>
@@ -156,7 +147,7 @@ function TextField({
           <FieldAdornment
             textInputRef={internalRef}
             caretRef={caretRef}
-            className="pl-1"
+            className="pr-3"
           >
             {endAdornment}
           </FieldAdornment>

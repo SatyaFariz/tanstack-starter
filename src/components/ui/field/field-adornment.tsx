@@ -41,9 +41,20 @@ const FieldAdornment = ({
   caretRef,
   textInputRef,
 }: FieldAdornmentProps) => {
+  const isChildrenIconButton = isIconButton(children);
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    textInputRef.current?.focus();
+  };
   return (
-    <div className={cn('flex items-center text-gray-400 text-base', className)}>
-      {isIconButton(children) ? cloneIconButton(children, textInputRef, caretRef) : children}
+    <div
+      className={cn(
+        'flex h-full items-center text-gray-400 text-base',
+        className,
+      )}
+      onMouseDown={handleMouseDown}
+    >
+      {isChildrenIconButton ? cloneIconButton(children, textInputRef, caretRef) : children}
     </div>
   );
 };
