@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import TextInput from '@/components/ui/textfield';
+import TextInput from '@/components/ui/field/textfield';
 
 // Icons for demonstration
 const EmailIcon = () => (

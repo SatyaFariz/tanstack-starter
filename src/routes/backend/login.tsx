@@ -1,12 +1,13 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
-import TextField, { FieldDescription } from '@/components/ui/textfield';
+import TextField from '@/components/ui/field/textfield';
 import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';
 import { z } from 'zod';
 import Link from '@/components/ui/link';
 import { Mail, Key } from 'lucide-react';
+import FieldDescription from '@/components/ui/field/field-description';
 
 // Email validation schema using Zod
 const emailSchema = z.email();

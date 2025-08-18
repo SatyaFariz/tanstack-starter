@@ -1,7 +1,7 @@
 // app/routes/index.tsx
 import { createFileRoute } from '@tanstack/react-router';
 import Button from '@/components/ui/button';
-import TextField, { FieldDescription } from '@/components/ui/textfield';
+import TextField from '@/components/ui/field/textfield';
 import { useRef, useState } from 'react';
 import Chip from '@/components/ui/chip';
 import Checkbox from '@/components/ui/checkbox';
@@ -12,6 +12,7 @@ import { Mail, Eye, Key } from 'lucide-react';
 
 import Link from '@/components/ui/link';
 import Switch from '@/components/ui/switch';
+import FieldDescription from '@/components/ui/field/field-description';
 
 export const Route = createFileRoute('/')({
   component: Home,

@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useLayoutEffect, useMemo } from 'react';
-import { useRef, type PropsWithChildren } from 'react';
+import { useRef } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
-import { TextField as TextFieldBase, Label, Input, FieldError, Text } from 'react-aria-components';
+import { TextField as TextFieldBase, Label, Input, FieldError } from 'react-aria-components';
 import useMergedRef from '@/hooks/useMergedRef';
-import IconButton from './icon-button';
+import IconButton from '../icon-button';
 import type { FieldIndicator } from '@/types/component';
+import FieldDescription from './field-description';
 
 function isIconButton(element: React.ReactNode) {
   if(!element || typeof element === 'string' || (React.isValidElement(element) && element.type !== IconButton)) return false;
@@ -219,13 +220,5 @@ function TextField({
     </TextFieldBase>
   );
 }
-
-export const FieldDescription = ({ children }: PropsWithChildren) => {
-  return (
-    <Text slot="description" className="text-xs text-gray-400">
-      {children}
-    </Text>
-  );
-};
 
 export default TextField;
