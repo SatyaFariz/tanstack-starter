@@ -116,8 +116,8 @@ function TextField({
         className={cn(
           'flex items-center border rounded-md bg-white overflow-clip cursor-text h-10',
           isInvalid
-            ? 'border-red-500 focus-within:ring-1 focus-within:ring-red-500 focus-within:border-red-500'
-            : 'border-gray-300 focus-within:ring-1 focus-within:ring-gray-300 focus-within:border-gray-300',
+            ? 'border-red-500 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-red-500 [&:focus-within:not(:has(button:focus))]:border-red-500'
+            : 'border-gray-300 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-gray-300 [&:focus-within:not(:has(button:focus))]:border-gray-300',
           'disabled:bg-gray-100',
         )}
       >
