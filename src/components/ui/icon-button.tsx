@@ -58,7 +58,7 @@ const IconButton = ({
   if(inline) {
 
     return (
-      <div className="relative inline-flex">
+      <div className="relative h-fit">
         <ButtonBase
           className={cn(
             baseClasses,
