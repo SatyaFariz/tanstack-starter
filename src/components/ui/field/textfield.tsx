@@ -1,37 +1,14 @@
 'use client';
 
-import React, { useLayoutEffect, useMemo } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useRef } from 'react';
 import cn from '@/utils/cn';
 import type { TextFieldProps as TextFieldPropsBase } from 'react-aria-components';
 import { TextField as TextFieldBase, Label, Input, FieldError } from 'react-aria-components';
 import useMergedRef from '@/hooks/useMergedRef';
-import IconButton from '../icon-button';
 import type { FieldIndicator } from '@/types/component';
 import FieldDescription from './field-description';
-
-function isIconButton(element: React.ReactNode) {
-  if(!element || typeof element === 'string' || (React.isValidElement(element) && element.type !== IconButton)) return false;
-
-  return true;
-}
-
-function cloneIconButton(element: React.ReactNode, inputRef: React.RefObject<HTMLInputElement | null>, caretRef: React.RefObject<{
-    start: number | null;
-    end: number | null;
-}>) {
-  const original = element as React.ReactElement<React.ComponentProps<typeof IconButton>>;
-  return React.cloneElement(original, {
-    ...original.props,
-    size: 'sm',
-    onMouseDown: (e) => {
-      e.preventDefault();
-      const inputElement = inputRef.current;
-      caretRef.current.start = inputElement?.selectionStart ?? null;
-      caretRef.current.end = inputElement?.selectionEnd ?? null;
-    },
-  });
-}
+import FieldAdornment from './field-adornment';
 
 interface TextFieldProps extends Omit<
   TextFieldPropsBase,
@@ -85,18 +62,6 @@ function TextField({
     e.preventDefault();
     internalRef.current?.focus();
   };
-
-  const endIconButton = useMemo(() => {
-    if(!isIconButton(endAdornment)) return null;
-
-    return cloneIconButton(endAdornment, internalRef, caretRef);
-  }, [endAdornment]);
-
-  const startIconButton = useMemo(() => {
-    if(!isIconButton(startAdornment)) return null;
-
-    return cloneIconButton(startAdornment, internalRef, caretRef);
-  }, [startAdornment]);
 
   // 3) After render, if the `type` changed (password <-> text), restore caret
   useLayoutEffect(() => {
@@ -162,18 +127,17 @@ function TextField({
           'disabled:bg-gray-100',
           startAdornment && 'pl-3',
           endAdornment && 'pr-3',
-          startIconButton && 'pl-1',
-          endIconButton && 'pr-1',
         )}
         onMouseDown={handleFieldMouseDown}
       >
         {startAdornment && (
-          <div
-            className="flex items-center text-gray-400 text-base"
-            aria-hidden="true"
+          <FieldAdornment
+            textInputRef={internalRef}
+            caretRef={caretRef}
+            className="pr-1"
           >
-            {startIconButton || startAdornment}
-          </div>
+            {startAdornment}
+          </FieldAdornment>
         )}
 
         <Input
@@ -182,8 +146,6 @@ function TextField({
             'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
             startAdornment ? 'pl-2' : 'pl-3',
             endAdornment ? 'pr-2' : 'pr-3',
-            startIconButton ? 'pl-1' : 'pl-3',
-            endIconButton ? 'pr-1' : 'pr-3',
             'disabled:text-gray-400 disabled:cursor-not-allowed',
             'placeholder:text-gray-400',
             className,
@@ -191,12 +153,13 @@ function TextField({
         />
 
         {endAdornment && (
-          <div
-            className="flex items-center text-gray-400 text-base"
-            aria-hidden="true"
+          <FieldAdornment
+            textInputRef={internalRef}
+            caretRef={caretRef}
+            className="pl-1"
           >
-            {endIconButton || endAdornment}
-          </div>
+            {endAdornment}
+          </FieldAdornment>
         )}
       </div>
 
