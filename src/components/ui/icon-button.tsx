@@ -4,14 +4,14 @@ import { Button as ButtonBase } from 'react-aria-components';
 
 interface IconButtonProps extends React.PropsWithChildren, Omit<React.ComponentProps<typeof ButtonBase>, 'onClick' | 'children'> {
   size?: 'sm' | 'md' | 'lg';
-  rippleAbsolute?: boolean;
+  inline?: boolean;
 }
 
 const IconButton = ({
   children,
   className = '',
   size = 'md',
-  rippleAbsolute = false,
+  inline = false,
   ...props
 }: IconButtonProps) => {
   const sizeClasses = {
@@ -55,7 +55,7 @@ const IconButton = ({
     className,
   ].filter(Boolean).join(' ');
 
-  if(rippleAbsolute) {
+  if(inline) {
 
     return (
       <div className="relative inline-flex">
