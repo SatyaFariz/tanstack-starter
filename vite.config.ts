@@ -4,6 +4,7 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   server: {
@@ -11,6 +12,7 @@ export default defineConfig({
   },
   plugins: [
     svgr(),
+    tailwindcss(),
     tsConfigPaths(),
     tanstackStart({ customViteReactPlugin: true }),
     viteReact(),
