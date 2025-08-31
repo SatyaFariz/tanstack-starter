@@ -80,9 +80,15 @@ function Home() {
           placeholder="Enter price"
           indicator="*"
           startAdornment="$"
+          // endAdornment="USD/hour"
           // isInvalid
           errorMessage="Please enter a valid email address."
           // description="This is just a dummy description"
+          // endAdornment={
+          //   <IconButton slot="increment" onPress={() => setShowsPassword((prev) => !prev)}>
+          //     <Eye size={18}/>
+          //   </IconButton>
+          // }
           description={
             <FieldDescription>
               Password <Link>Password</Link>

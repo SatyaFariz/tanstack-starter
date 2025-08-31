@@ -9,8 +9,8 @@ import useMergedRef from '@/hooks/useMergedRef';
 import type { FieldIndicator } from '@/types/component';
 import FieldDescription from './field-description';
 import FieldAdornment from './field-adornment';
-import { Button } from 'react-aria-components';
 import { Plus, Minus } from 'lucide-react';
+import IconButton from '../icon-button';
 
 interface NumberFieldProps extends Omit<
   NumberFieldPropsBase,
@@ -82,40 +82,39 @@ function NumberField({
         </Label>
       )}
 
-      <div className="flex w-full">
-        <div
+      <div
+        className={cn(
+          'flex items-center border rounded-md bg-white overflow-clip cursor-text h-10',
+          isInvalid
+            ? 'border-red-500 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-red-500 [&:focus-within:not(:has(button:focus))]:border-red-500'
+            : 'border-gray-300 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-gray-300 [&:focus-within:not(:has(button:focus))]:border-gray-300',
+          'disabled:bg-gray-100',
+        )}
+      >
+        {startAdornment && (
+          <FieldAdornment
+            textInputRef={internalRef}
+            caretRef={caretRef}
+            className="pl-3"
+          >
+            {startAdornment}
+          </FieldAdornment>
+        )}
+
+        <Input
+          ref={inputRef}
           className={cn(
-            'flex flex-1 items-center border rounded-md bg-white overflow-clip cursor-text h-10',
-            'border-r-0 rounded-r-none',
-            isInvalid
-              ? 'border-red-500 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-red-500 [&:focus-within:not(:has(button:focus))]:border-red-500'
-              : 'border-gray-300 [&:focus-within:not(:has(button:focus))]:ring-1 [&:focus-within:not(:has(button:focus))]:ring-gray-300 [&:focus-within:not(:has(button:focus))]:border-gray-300',
-            'disabled:bg-gray-100',
+            'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
+            startAdornment ? 'pl-2' : 'pl-3',
+            'pr-2',
+            'disabled:text-gray-400 disabled:cursor-not-allowed',
+            'placeholder:text-gray-400',
+            className,
           )}
-        >
-          {startAdornment && (
-            <FieldAdornment
-              textInputRef={internalRef}
-              caretRef={caretRef}
-              className="pl-3"
-            >
-              {startAdornment}
-            </FieldAdornment>
-          )}
+        />
 
-          <Input
-            ref={inputRef}
-            className={cn(
-              'flex-1 text-base placeholder:text-base h-full bg-transparent border-0 focus:outline-none focus:ring-0',
-              startAdornment ? 'pl-2' : 'pl-3',
-              endAdornment ? 'pr-2' : 'pr-3',
-              'disabled:text-gray-400 disabled:cursor-not-allowed',
-              'placeholder:text-gray-400',
-              className,
-            )}
-          />
-
-          {endAdornment && (
+        {endAdornment && (
+          <>
             <FieldAdornment
               textInputRef={internalRef}
               caretRef={caretRef}
@@ -123,26 +122,34 @@ function NumberField({
             >
               {endAdornment}
             </FieldAdornment>
-          )}
-        </div>
+            <div className="h-5 w-[1px] bg-gray-200"/>
+          </>
+        )}
 
-        <Button
-          slot="decrement"
+        <FieldAdornment
+          textInputRef={internalRef}
+          caretRef={caretRef}
           className={cn(
-            'h-10 aspect-square bg-slate-200 flex items-center cursor-pointer justify-center',
+            'pr-3',
+            endAdornment && 'pl-3',
           )}
         >
-          <Minus size={18}/>
-        </Button>
+          <IconButton slot="decrement">
+            <Minus size={16}/>
+          </IconButton>
+        </FieldAdornment>
 
-        <Button
-          slot="increment"
-          className={cn(
-            'h-10 aspect-square bg-slate-200 flex items-center cursor-pointer justify-center rounded-r-md',
-          )}
+        <div className="h-5 w-[1px] bg-gray-200"/>
+
+        <FieldAdornment
+          textInputRef={internalRef}
+          caretRef={caretRef}
+          className="pr-3 pl-3"
         >
-          <Plus size={18}/>
-        </Button>
+          <IconButton slot="increment">
+            <Plus size={16}/>
+          </IconButton>
+        </FieldAdornment>
       </div>
 
       {description && (
