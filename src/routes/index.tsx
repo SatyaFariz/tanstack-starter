@@ -8,7 +8,7 @@ import Checkbox from '@/components/ui/checkbox';
 import Spinner from '@/components/ui/spinner';
 import IconButton from '@/components/ui/icon-button';
 
-import { Mail, Eye, Key } from 'lucide-react';
+import { Mail, Eye, Lock } from 'lucide-react';
 
 import Link from '@/components/ui/link';
 import Switch from '@/components/ui/switch';
@@ -56,7 +56,7 @@ function Home() {
           onChange={setText}
           indicator="*"
           startAdornment={
-            <Key size={18}/>
+            <Lock size={18}/>
           }
           endAdornment={
             <IconButton size="lg" onPress={() => setShowsPassword((prev) => !prev)}>
@@ -75,7 +75,7 @@ function Home() {
           placeholder="Enter price"
           indicator="*"
           startAdornment="$"
-          // endAdornment="USD/hour"
+          endAdornment="per hour"
           // isInvalid
           errorMessage="Please enter a valid email address."
           // description="This is just a dummy description"

@@ -6,7 +6,7 @@ import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';
 import { z } from 'zod';
 import Link from '@/components/ui/link';
-import { Mail, Key } from 'lucide-react';
+import { Mail, Lock } from 'lucide-react';
 import FieldDescription from '@/components/ui/field/field-description';
 
 // Email validation schema using Zod
@@ -116,7 +116,7 @@ function RouteComponent() {
                       </FieldDescription>
                     }
                     startAdornment={
-                      <Key size={18}/>
+                      <Lock size={18}/>
                     }
                   />
                 </div>
