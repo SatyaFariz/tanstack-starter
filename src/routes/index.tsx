@@ -12,7 +12,6 @@ import { Mail, Eye, Key } from 'lucide-react';
 
 import Link from '@/components/ui/link';
 import Switch from '@/components/ui/switch';
-import FieldDescription from '@/components/ui/field/field-description';
 import NumberField from '@/components/ui/field/numberfield';
 
 export const Route = createFileRoute('/')({
@@ -67,11 +66,7 @@ function Home() {
           // isInvalid
           errorMessage="Please enter a valid email address."
           // description="This is just a dummy description"
-          description={
-            <FieldDescription>
-              Password <Link>Password</Link>
-            </FieldDescription>
-          }
+          description="Optional help text"
           fullWidth={false}
         />
 
@@ -89,11 +84,7 @@ function Home() {
           //     <Eye size={18}/>
           //   </IconButton>
           // }
-          description={
-            <FieldDescription>
-              Password <Link>Password</Link>
-            </FieldDescription>
-          }
+          description="Optional help text"
           // fullWidth={false}
         />
 
