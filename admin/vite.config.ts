@@ -21,6 +21,7 @@ export default defineConfig({
     tailwindcss(),
     tsConfigPaths(),
     tanstackStart({
+      target: 'bun',
       customViteReactPlugin: true,
       client: {
         entry: 'admin/client.tsx',
