@@ -1,7 +1,7 @@
 // src/db/index.ts - Database connections setup
 import { drizzle as drizzleSQLite } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
-import * as vaultSchema from './schema';
+import * as vaultSchema from './schemas';
 
 // SQLite connection for vault/secrets management
 const sqliteClient = new Database('./vault/data.db', {
