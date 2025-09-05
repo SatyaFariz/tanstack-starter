@@ -4,7 +4,10 @@ import { Database } from 'bun:sqlite';
 import * as vaultSchema from './schema';
 
 // SQLite connection for vault/secrets management
-const sqliteClient = new Database('./data/vault.db');
+const sqliteClient = new Database('./vault/data.db', {
+  create: true,
+  readwrite: true,
+});
 export const vaultDb = drizzleSQLite(sqliteClient, {
   schema: vaultSchema,
 });

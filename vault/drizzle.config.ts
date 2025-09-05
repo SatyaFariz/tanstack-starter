@@ -6,7 +6,7 @@ export default defineConfig({
   out: './vault/migrations',
   dialect: 'sqlite',
   dbCredentials: {
-    url: './data/vault.db',
+    url: './vault/data.db',
   },
   verbose: true,
   strict: true,
