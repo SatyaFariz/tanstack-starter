@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("../");
 
 .animate-spinner-ease-spin {
     animation: spinner-spin .8s ease infinite;
