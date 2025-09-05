@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   server: {
-    port: 3002,
+    port: 3003,
   },
   css: {
     devSourcemap: true,
@@ -24,14 +24,14 @@ export default defineConfig({
       target: 'bun',
       customViteReactPlugin: true,
       client: {
-        entry: 'admin/client.tsx',
+        entry: 'vault/client.tsx',
       },
       server: {
-        entry: 'admin/server.ts',
+        entry: 'vault/server.ts',
       },
       tsr: {
-        generatedRouteTree: 'src/admin/routeTree.gen.ts',
-        routesDirectory: 'src/admin/routes',
+        generatedRouteTree: 'src/vault/routeTree.gen.ts',
+        routesDirectory: 'src/vault/routes',
       },
     }),
     viteReact(),
