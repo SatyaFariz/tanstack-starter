@@ -10,6 +10,12 @@ export default defineConfig({
   server: {
     port: 3001,
   },
+  css: {
+    devSourcemap: true,
+  },
+  build: {
+    sourcemap: true,
+  },
   plugins: [
     svgr(),
     tailwindcss(),
