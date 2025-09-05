@@ -14,7 +14,10 @@ export default defineConfig({
     svgr(),
     tailwindcss(),
     tsConfigPaths(),
-    tanstackStart({ customViteReactPlugin: true }),
+    tanstackStart({
+      target: 'bun',
+      customViteReactPlugin: true,
+    }),
     viteReact(),
   ],
 });
