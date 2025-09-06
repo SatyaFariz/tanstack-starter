@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import type { Response, AuthResponse } from '@/types/response';
 import type { User } from 'vault/schemas/auth';
+import { HttpStatus } from '@/types/http-status';
 
 // Validation schema
 const signUpSchema = z.object({
@@ -72,6 +73,7 @@ export const signUp = createServerFn({ method: 'POST' })
         if(isFirstUser) {
           const tokens = generateTokens(createdUser.id, createdUser.email);
           return {
+            httpCode: HttpStatus.CREATED,
             data: createdUser,
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
@@ -82,6 +84,7 @@ export const signUp = createServerFn({ method: 'POST' })
         }
 
         return {
+          httpCode: HttpStatus.CREATED,
           data: createdUser,
           messages: [
             {
@@ -94,11 +97,13 @@ export const signUp = createServerFn({ method: 'POST' })
       } catch (err: any) {
         if(err.cause?.code === 'SQLITE_CONSTRAINT_UNIQUE') {
           return {
+            httpCode: HttpStatus.CONFLICT,
             data: null,
             messages: [{ message: 'User with this email already exists', type: 'error' }],
           } satisfies Response<null>;
         }
         return {
+          httpCode: HttpStatus.INTERNAL_SERVER_ERROR,
           data: null,
           messages: [{ message: 'An error occurred while creating your account. Please try again.', type: 'error' }],
         } satisfies Response<null>;
