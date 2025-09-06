@@ -10,22 +10,20 @@ import type { User } from 'vault/schemas/auth';
 
 // Validation schema
 const signUpSchema = z.object({
-  email: z.string().email('Invalid email format'),
+  email: z.email('Invalid email format'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 // JWT utility
 const generateTokens = (userId: number, email: string) => {
-  const JWT_SECRET = process.env.JWT_SECRET!;
-  const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
+  const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
 
-  const access_token = jwt.sign({ userId, email }, JWT_SECRET, {
-    expiresIn: '15m',
-  });
+  if(!JWT_SECRET || !JWT_REFRESH_SECRET) {
+    throw new Error('JWT secrets (JWT_SECRET, JWT_REFRESH_SECRET) must be set in env');
+  }
 
-  const refresh_token = jwt.sign({ userId, email }, JWT_REFRESH_SECRET, {
-    expiresIn: '7d',
-  });
+  const access_token = jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: '15m' });
+  const refresh_token = jwt.sign({ userId, email }, JWT_REFRESH_SECRET, { expiresIn: '7d' });
 
   return { access_token, refresh_token };
 };
@@ -106,7 +104,6 @@ export const signUp = createServerFn({ method: 'POST' })
             ],
           } satisfies Response<null>;
         }
-
         return {
           data: null,
           messages: [

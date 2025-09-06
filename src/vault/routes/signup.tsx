@@ -22,10 +22,11 @@ function RouteComponent() {
   const signupMutation = useMutation({
     mutationFn: (formData: { email: string; password: string }) => signUp({ data: formData }),
     onSuccess: (data) => {
+      console.log(data);
       // Handle success - check if user was automatically signed in (first user)
       if('access_token' in data) {
         // First user - redirect to dashboard
-        window.location.href = '/backend';
+        window.location.href = '/';
       } else {
         // Regular signup - show success message or redirect to login
         // You might want to show a toast or redirect to login page
