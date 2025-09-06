@@ -16,6 +16,10 @@ export const generateTokens = (userId: number, email: string) => {
   return { access_token, refresh_token };
 };
 
-export const verifyToken = (accessToken: string) => {
-  return jwt.verify(accessToken, process.env.JWT_SECRET!) as JWTPayload;
-};
+export function verifyAccessToken(token: string): JWTPayload {
+  return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
+}
+
+export function verifyRefreshToken(token: string): JWTPayload {
+  return jwt.verify(token, process.env.JWT_REFRESH_SECRET!) as JWTPayload;
+}

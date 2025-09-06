@@ -7,8 +7,8 @@ import { z } from 'zod';
 import type { Response } from '@/types/response';
 import type { User } from 'vault/schemas/auth';
 import { HttpStatus } from '@/types/http-status';
-import { setHeader } from '@tanstack/react-start/server';
 import { generateTokens } from '../utils/jwt';
+import { setAuthCookies } from '../utils/cookies';
 
 // Validation schema
 const signUpSchema = z.object({
@@ -62,10 +62,7 @@ export const signUp = createServerFn({ method: 'POST' })
           const tokens = generateTokens(createdUser.id, createdUser.email);
 
           // ✅ Secure cookies
-          setHeader('Set-Cookie', [
-            `access_token=${tokens.access_token}; HttpOnly; Path=/; Max-Age=900; SameSite=Strict`,
-            `refresh_token=${tokens.refresh_token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict`,
-          ]);
+          setAuthCookies(tokens.access_token, tokens.refresh_token);
         }
 
         return {

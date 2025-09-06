@@ -1,7 +1,8 @@
 // src/server/get-user-session.server.ts
 import { createServerFn } from '@tanstack/react-start';
-import { getHeader, setHeader } from '@tanstack/react-start/server';
-import { generateTokens, verifyToken } from '../utils/jwt';
+import { getHeader } from '@tanstack/react-start/server';
+import { generateTokens, verifyRefreshToken, verifyAccessToken } from '../utils/jwt';
+import { setAuthCookies } from '../utils/cookies';
 
 export const getUserSession = createServerFn()
   .handler(async () => {
@@ -19,7 +20,7 @@ export const getUserSession = createServerFn()
     // 1. Try validating access token
     if(accessToken) {
       try {
-        return verifyToken(accessToken);
+        return verifyAccessToken(accessToken);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         if(err.name !== 'TokenExpiredError') {
@@ -34,16 +35,13 @@ export const getUserSession = createServerFn()
       try {
         // eslint-disable-next-line no-console
         console.log('refreshing token');
-        const decoded = verifyToken(refreshToken);
+        const decoded = verifyRefreshToken(refreshToken);
 
         // issue new tokens (rotate refresh token)
         const tokens = generateTokens(decoded.userId, decoded.email);
 
         // ✅ set new cookies
-        setHeader('Set-Cookie', [
-          `access_token=${tokens.access_token}; HttpOnly; Path=/; Max-Age=900; SameSite=Strict`,
-          `refresh_token=${tokens.refresh_token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 7}; SameSite=Strict`,
-        ]);
+        setAuthCookies(tokens.access_token, tokens.refresh_token);
 
         return decoded;
       } catch {
