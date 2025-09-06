@@ -1,7 +1,7 @@
 // src/server/check-users-exist.server.ts
 import { createServerFn } from '@tanstack/react-start';
-import { vaultDb as db } from '../../connection';
-import { users } from '../../schemas/auth';
+import { vaultDb as db } from 'vault/db/connection';
+import { users } from 'vault/db/schemas/auth';
 
 export const checkUsersExist = createServerFn()
   .handler(async () => {

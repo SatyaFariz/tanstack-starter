@@ -119,4 +119,4 @@ temp
 .vscode-test
 
 # SQLite DB
-vault/data.db
+vault/db/data.db

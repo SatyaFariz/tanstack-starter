@@ -1,14 +1,14 @@
 import { createServerFn } from '@tanstack/react-start';
-import { vaultDb as db } from '../../connection';
-import { users } from '../../schemas/auth';
+import { vaultDb as db } from 'vault/db/connection';
+import { users } from 'vault/db/schemas/auth';
 import { count } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import type { Response } from '@/types/response';
-import type { User } from '../../schemas/auth';
+import type { User } from 'vault/db/schemas/auth';
 import { HttpStatus } from '@/types/http-status';
-import { generateTokens } from '../utils/jwt';
-import { setAuthCookies } from '../utils/cookies';
+import { generateTokens } from 'vault/utils/jwt';
+import { setAuthCookies } from 'vault/utils/cookies';
 
 // Validation schema
 const signUpSchema = z.object({

@@ -6,7 +6,7 @@ import * as vaultSchema from './schemas';
 
 // Universal SQLite connection using @libsql/client
 const sqliteClient = createClient({
-  url: 'file:./vault/data.db',
+  url: 'file:./vault/db/data.db',
 });
 
 export const vaultDb = drizzle(sqliteClient, {

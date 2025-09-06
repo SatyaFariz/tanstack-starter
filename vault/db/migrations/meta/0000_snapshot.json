@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9d0156f0-5ede-48b7-bf65-95a39827cd67",
+  "id": "ddc03111-3046-4683-af11-ddb09d9eb1c7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "password_reset_tokens": {

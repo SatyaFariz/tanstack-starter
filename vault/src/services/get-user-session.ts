@@ -2,7 +2,7 @@
 import { createServerFn } from '@tanstack/react-start';
 import { getHeader } from '@tanstack/react-start/server';
 import { generateTokens, verifyRefreshToken, verifyAccessToken } from '../utils/jwt';
-import { setAuthCookies } from '../utils/cookies';
+import { setAuthCookies } from 'vault/utils/cookies';
 
 export const getUserSession = createServerFn()
   .handler(async () => {
