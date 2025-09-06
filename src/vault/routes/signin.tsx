@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
-import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
 import TextField from '@/components/ui/field/textfield';
 import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';
@@ -9,6 +9,9 @@ import { z } from 'zod';
 import Link from '@/components/ui/link';
 import { Mail, Lock } from 'lucide-react';
 import FieldDescription from '@/components/ui/field/field-description';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { signIn } from '@/vault/services/sign-in';
+import { toastifyResponseMessages } from '@/utils/toast';
 
 // Email validation schema using Zod
 const emailSchema = z.email();
@@ -23,15 +26,30 @@ export const Route = createFileRoute('/signin')({
 });
 
 function RouteComponent() {
-  const loginMutation = useLoginWithEmailMutation();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const signinMutation = useMutation({
+    mutationFn: (formData: { email: string; password: string }) => signIn({ data: formData }),
+    onSuccess: async (data) => {
+      toastifyResponseMessages(data);
+      await queryClient.invalidateQueries();
+      await router.invalidate();
+    },
+    onError: (error) => {
+      console.error('Signup failed:', error);
+    },
+  });
 
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
     },
     onSubmit: async ({ value }) => {
-      await loginMutation.mutateAsync(value);
+      const { email, password } = value;
+      await signinMutation.mutateAsync({ email, password });
     },
   });
 
@@ -127,11 +145,11 @@ function RouteComponent() {
                 <div className="pt-4">
                   <Button
                     type="submit"
-                    isDisabled={!canSubmit || loginMutation.isPending}
-                    isPending={isSubmitting || loginMutation.isPending}
+                    isDisabled={!canSubmit || signinMutation.isPending}
+                    isPending={isSubmitting || signinMutation.isPending}
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
                   >
-                    {isSubmitting || loginMutation.isPending ? 'Signing in...' : 'Sign In'}
+                    {isSubmitting || signinMutation.isPending ? 'Signing in...' : 'Sign In'}
                   </Button>
                 </div>
               )}

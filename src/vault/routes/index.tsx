@@ -10,7 +10,7 @@ export const Route = createFileRoute('/')({
   component: Home,
   beforeLoad: async ({ context }) => {
     if(!context.userSession) {
-      throw redirect({ to: '/signup' });
+      throw redirect({ to: '/signin' });
     }
   },
 });
