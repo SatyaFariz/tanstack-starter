@@ -5,9 +5,10 @@ import { count } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
-import type { Response, AuthResponse } from '@/types/response';
+import type { Response } from '@/types/response';
 import type { User } from 'vault/schemas/auth';
 import { HttpStatus } from '@/types/http-status';
+import { setHeader } from '@tanstack/react-start/server';
 
 // Validation schema
 const signUpSchema = z.object({
@@ -15,7 +16,7 @@ const signUpSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-// Public user type
+// Public user type (omit password)
 export type PublicUser = Omit<User, 'password'>;
 
 // JWT utility
@@ -35,7 +36,7 @@ const generateTokens = (userId: number, email: string) => {
 export const signUp = createServerFn({ method: 'POST' })
   .validator(signUpSchema)
   .handler(
-    async ({ data }): Promise<Response<PublicUser | null> | AuthResponse<PublicUser>> => {
+    async ({ data }): Promise<Response<PublicUser | null>> => {
       const { email, password } = data;
 
       try {
@@ -70,17 +71,15 @@ export const signUp = createServerFn({ method: 'POST' })
 
         const { createdUser, isFirstUser } = result;
 
+        // If first user, issue tokens and set cookies
         if(isFirstUser) {
           const tokens = generateTokens(createdUser.id, createdUser.email);
-          return {
-            httpCode: HttpStatus.CREATED,
-            data: createdUser,
-            access_token: tokens.access_token,
-            refresh_token: tokens.refresh_token,
-            messages: [
-              { message: 'Welcome! Account created and signed in successfully.', type: 'success' },
-            ],
-          } satisfies AuthResponse<PublicUser>;
+
+          // ✅ Secure cookies
+          setHeader('Set-Cookie', [
+            `access_token=${tokens.access_token}; HttpOnly; Path=/; Max-Age=900; SameSite=Strict`,
+            `refresh_token=${tokens.refresh_token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict`,
+          ]);
         }
 
         return {
@@ -88,24 +87,32 @@ export const signUp = createServerFn({ method: 'POST' })
           data: createdUser,
           messages: [
             {
-              message: 'Account created successfully. Please verify your email to sign in.',
+              message: isFirstUser
+                ? 'Welcome! Account created and signed in successfully.'
+                : 'Account created successfully. Please verify your email to sign in.',
               type: 'success',
             },
           ],
         } satisfies Response<PublicUser>;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        if(err.cause?.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+        if(err.cause?.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.code === 'SQLITE_CONSTRAINT') {
           return {
             httpCode: HttpStatus.CONFLICT,
             data: null,
             messages: [{ message: 'User with this email already exists', type: 'error' }],
           } satisfies Response<null>;
         }
+
         return {
           httpCode: HttpStatus.INTERNAL_SERVER_ERROR,
           data: null,
-          messages: [{ message: 'An error occurred while creating your account. Please try again.', type: 'error' }],
+          messages: [
+            {
+              message: 'An error occurred while creating your account. Please try again.',
+              type: 'error',
+            },
+          ],
         } satisfies Response<null>;
       }
     },

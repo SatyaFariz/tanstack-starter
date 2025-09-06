@@ -1,9 +1,14 @@
 // app/routes/index.tsx
 
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Home,
+  beforeLoad: async ({ context }) => {
+    if(!context.userSession) {
+      throw redirect({ to: '/signup' });
+    }
+  },
 });
 
 function Home() {

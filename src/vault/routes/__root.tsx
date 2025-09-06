@@ -6,7 +6,7 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router';
-import { getUserSession } from '@/services/auth';
+import { getUserSession } from '@/vault/services/get-user-session';
 import appCss from '@/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';

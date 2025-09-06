@@ -1,12 +1,17 @@
 /* eslint-disable no-console */
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useRouter, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/signup')({
   component: RouteComponent,
+  beforeLoad: async ({ context }) => {
+    if(context.userSession) {
+      throw redirect({ to: '/' });
+    }
+  },
 });
 import { useForm } from '@tanstack/react-form';
-import { useMutation } from '@tanstack/react-query';
-import { signUp } from '@/vault/services/auth'; // Adjust path as needed
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { signUp } from '@/vault/services/sign-up'; // Adjust path as needed
 import TextField from '@/components/ui/field/textfield';
 import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';
@@ -20,20 +25,15 @@ import { toastifyResponseMessages } from '@/utils/toast';
 const emailSchema = z.email();
 
 function RouteComponent() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const signupMutation = useMutation({
     mutationFn: (formData: { email: string; password: string }) => signUp({ data: formData }),
-    onSuccess: (data) => {
-      console.log(data);
-      // Handle success - check if user was automatically signed in (first user)
-      if('access_token' in data) {
-        // First user - redirect to dashboard
-        // window.location.href = '/';
-      } else {
-        // Regular signup - show success message or redirect to login
-        // You might want to show a toast or redirect to login page
-        console.log('Account created successfully');
-      }
+    onSuccess: async (data) => {
       toastifyResponseMessages(data);
+      await queryClient.invalidateQueries();
+      await router.invalidate();
     },
     onError: (error) => {
       console.error('Signup failed:', error);
