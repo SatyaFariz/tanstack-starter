@@ -3,7 +3,7 @@
 import Button from '@/components/ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
-import { logout } from '../services/logout';
+import { logout } from 'vault/services/logout';
 import { toastifyResponseMessages } from '@/utils/toast';
 
 export const Route = createFileRoute('/')({
