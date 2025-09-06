@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-router';
 import { getUserSession } from 'vault/services/get-user-session';
 import appCss from '@/styles/app.css?url';
+import vaultAppCss from 'vault/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { checkUsersExist } from 'vault/services/check-users-exist';
@@ -46,6 +47,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: 'stylesheet',
         href: appCss,
       },
+      { rel: 'stylesheet', href: vaultAppCss },
     ],
   }),
   component: RootComponent,
