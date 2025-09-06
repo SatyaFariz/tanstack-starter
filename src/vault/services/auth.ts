@@ -92,7 +92,7 @@ export const signUp = createServerFn({ method: 'POST' })
         } satisfies Response<PublicUser>;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        if(err.message?.includes('UNIQUE') || err.code === 'SQLITE_CONSTRAINT') {
+        if(err.cause?.code === 'SQLITE_CONSTRAINT_UNIQUE') {
           return {
             data: null,
             messages: [{ message: 'User with this email already exists', type: 'error' }],

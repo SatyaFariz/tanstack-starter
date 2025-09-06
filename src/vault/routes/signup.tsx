@@ -14,6 +14,7 @@ import { z } from 'zod';
 import Link from '@/components/ui/link';
 import { Mail, Lock, UserPlus } from 'lucide-react';
 import FieldDescription from '@/components/ui/field/field-description';
+import { toastifyResponseMessages } from '@/utils/toast';
 
 // Email validation schema using Zod
 const emailSchema = z.email();
@@ -24,14 +25,15 @@ function RouteComponent() {
     onSuccess: (data) => {
       console.log(data);
       // Handle success - check if user was automatically signed in (first user)
-      // if('access_token' in data) {
-      //   // First user - redirect to dashboard
-      //   window.location.href = '/';
-      // } else {
-      //   // Regular signup - show success message or redirect to login
-      //   // You might want to show a toast or redirect to login page
-      //   console.log('Account created successfully');
-      // }
+      if('access_token' in data) {
+        // First user - redirect to dashboard
+        // window.location.href = '/';
+      } else {
+        // Regular signup - show success message or redirect to login
+        // You might want to show a toast or redirect to login page
+        console.log('Account created successfully');
+      }
+      toastifyResponseMessages(data);
     },
     onError: (error) => {
       console.error('Signup failed:', error);
