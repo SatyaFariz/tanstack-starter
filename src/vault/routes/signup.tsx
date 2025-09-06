@@ -7,6 +7,10 @@ export const Route = createFileRoute('/signup')({
     if(context.userSession) {
       throw redirect({ to: '/' });
     }
+
+    if(context.usersExist) {
+      throw redirect({ to: '/signin' });
+    }
   },
 });
 import { useForm } from '@tanstack/react-form';

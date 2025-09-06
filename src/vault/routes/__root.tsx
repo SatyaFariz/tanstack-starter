@@ -10,6 +10,7 @@ import { getUserSession } from '@/vault/services/get-user-session';
 import appCss from '@/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import { checkUsersExist } from '../services/check-users-exist';
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   beforeLoad: async ({ context }) => {
@@ -19,7 +20,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       staleTime: 5000,
     }));
 
-    return { userSession };
+    const usersExist = await context.queryClient.fetchQuery(queryOptions({
+      queryKey: ['exist', 'user'],
+      queryFn: () => checkUsersExist(),
+      staleTime: 5000,
+    }));
+
+    return { userSession, usersExist };
   },
   head: () => ({
     meta: [

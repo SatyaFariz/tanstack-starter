@@ -22,6 +22,10 @@ export const Route = createFileRoute('/signin')({
     if(context.userSession) {
       throw redirect({ to: '/' });
     }
+
+    if(!context.usersExist) {
+      throw redirect({ to: '/signup' });
+    }
   },
 });
 
