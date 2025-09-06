@@ -23,15 +23,18 @@ export default defineConfig({
     tanstackStart({
       target: 'bun',
       customViteReactPlugin: true,
-      client: {
-        entry: 'vault/client.tsx',
-      },
-      server: {
-        entry: 'vault/server.ts',
-      },
+      // client: {
+      //   entry: 'vault/client.tsx',
+      // },
+      // server: {
+      //   entry: 'vault/server.ts',
+      // },
       tsr: {
-        generatedRouteTree: 'src/vault/routeTree.gen.ts',
-        routesDirectory: 'src/vault/routes',
+        // generatedRouteTree: 'src/vault/routeTree.gen.ts',
+        // routesDirectory: 'src/vault/routes',
+        // generatedRouteTree: 'vault/src/routeTree.gen.ts',
+        // routesDirectory: 'vault/src/routes',
+        srcDirectory: 'vault/src',
       },
     }),
     viteReact(),
