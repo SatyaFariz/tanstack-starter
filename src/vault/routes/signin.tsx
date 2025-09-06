@@ -1,7 +1,19 @@
-/* eslint-disable no-console */
-import { createFileRoute, useRouter, redirect } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/signup')({
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { useForm } from '@tanstack/react-form';
+import { useLoginWithEmailMutation } from '@/hooks/useLoginWithEmailMutation';
+import TextField from '@/components/ui/field/textfield';
+import PasswordField from '@/components/ui/passwordfield';
+import Button from '@/components/ui/button';
+import { z } from 'zod';
+import Link from '@/components/ui/link';
+import { Mail, Lock } from 'lucide-react';
+import FieldDescription from '@/components/ui/field/field-description';
+
+// Email validation schema using Zod
+const emailSchema = z.email();
+
+export const Route = createFileRoute('/signin')({
   component: RouteComponent,
   beforeLoad: async ({ context }) => {
     if(context.userSession) {
@@ -9,45 +21,17 @@ export const Route = createFileRoute('/signup')({
     }
   },
 });
-import { useForm } from '@tanstack/react-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { signUp } from '@/vault/services/sign-up'; // Adjust path as needed
-import TextField from '@/components/ui/field/textfield';
-import PasswordField from '@/components/ui/passwordfield';
-import Button from '@/components/ui/button';
-import { z } from 'zod';
-import { Mail, Lock, UserPlus } from 'lucide-react';
-import FieldDescription from '@/components/ui/field/field-description';
-import { toastifyResponseMessages } from '@/utils/toast';
-
-// Email validation schema using Zod
-const emailSchema = z.email();
 
 function RouteComponent() {
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
-  const signupMutation = useMutation({
-    mutationFn: (formData: { email: string; password: string }) => signUp({ data: formData }),
-    onSuccess: async (data) => {
-      toastifyResponseMessages(data);
-      await queryClient.invalidateQueries();
-      await router.invalidate();
-    },
-    onError: (error) => {
-      console.error('Signup failed:', error);
-    },
-  });
+  const loginMutation = useLoginWithEmailMutation();
 
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
-      confirmPassword: '',
     },
     onSubmit: async ({ value }) => {
-      const { email, password } = value;
-      await signupMutation.mutateAsync({ email, password });
+      await loginMutation.mutateAsync(value);
     },
   });
 
@@ -57,13 +41,15 @@ function RouteComponent() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
-            <UserPlus className="w-8 h-8 text-white" />
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900">Create Account</h1>
-          <p className="text-slate-600 mt-2">Sign up to access your dashboard</p>
+          <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
+          <p className="text-slate-600 mt-2">Sign in to access your dashboard</p>
         </div>
 
-        {/* Signup Form Card */}
+        {/* Signin Form Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-slate-200/50 p-8">
           <form
             className="space-y-6"
@@ -108,8 +94,6 @@ function RouteComponent() {
                 onChange: ({ value }) => {
                   if(!value.trim()) {
                     return 'Password is required';
-                  } else if(value.length < 8) {
-                    return 'Password must be at least 8 characters';
                   }
                   return undefined;
                 },
@@ -127,40 +111,9 @@ function RouteComponent() {
                     isInvalid={field.state.meta.errors.length > 0}
                     description={
                       <FieldDescription>
-                        Password must be at least 8 characters long.
+                        If you forgot your password, please contact admin for a new password. <Link>Learn more.</Link>
                       </FieldDescription>
                     }
-                    startAdornment={<Lock size={18} />}
-                  />
-                </div>
-              )}
-            </form.Field>
-
-            <form.Field
-              name="confirmPassword"
-              validators={{
-                onChange: ({ value, fieldApi }) => {
-                  if(!value.trim()) {
-                    return 'Please confirm your password';
-                  }
-                  const password = fieldApi.form.getFieldValue('password');
-                  if(value !== password) {
-                    return 'Passwords do not match';
-                  }
-                  return undefined;
-                },
-              }}
-            >
-              {(field) => (
-                <div className="space-y-2">
-                  <PasswordField
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
-                    indicator="*"
-                    defaultValue={field.state.value}
-                    onChange={(val) => field.handleChange(val)}
-                    errorMessage={field.state.meta.errors.join(', ')}
-                    isInvalid={field.state.meta.errors.length > 0}
                     startAdornment={<Lock size={18} />}
                   />
                 </div>
@@ -174,11 +127,11 @@ function RouteComponent() {
                 <div className="pt-4">
                   <Button
                     type="submit"
-                    isDisabled={!canSubmit || signupMutation.isPending}
-                    isPending={isSubmitting || signupMutation.isPending}
+                    isDisabled={!canSubmit || loginMutation.isPending}
+                    isPending={isSubmitting || loginMutation.isPending}
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
                   >
-                    {isSubmitting || signupMutation.isPending ? 'Creating Account...' : 'Create Account'}
+                    {isSubmitting || loginMutation.isPending ? 'Signing in...' : 'Sign In'}
                   </Button>
                 </div>
               )}
