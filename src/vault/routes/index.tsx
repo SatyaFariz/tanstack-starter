@@ -7,7 +7,7 @@ import { logout } from '../services/logout';
 import { toastifyResponseMessages } from '@/utils/toast';
 
 export const Route = createFileRoute('/')({
-  component: Home,
+  component: RouteComponent,
   beforeLoad: async ({ context }) => {
     if(!context.userSession) {
       throw redirect({ to: '/signin' });
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/')({
   },
 });
 
-function Home() {
+function RouteComponent() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation({
