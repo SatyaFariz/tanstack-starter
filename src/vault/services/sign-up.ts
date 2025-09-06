@@ -3,12 +3,12 @@ import { vaultDb as db } from 'vault/connection';
 import { users } from 'vault/schemas/auth';
 import { count } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import type { Response } from '@/types/response';
 import type { User } from 'vault/schemas/auth';
 import { HttpStatus } from '@/types/http-status';
 import { setHeader } from '@tanstack/react-start/server';
+import { generateTokens } from '../utils/jwt';
 
 // Validation schema
 const signUpSchema = z.object({
@@ -18,20 +18,6 @@ const signUpSchema = z.object({
 
 // Public user type (omit password)
 export type PublicUser = Omit<User, 'password'>;
-
-// JWT utility
-const generateTokens = (userId: number, email: string) => {
-  const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
-
-  if(!JWT_SECRET || !JWT_REFRESH_SECRET) {
-    throw new Error('JWT secrets (JWT_SECRET, JWT_REFRESH_SECRET) must be set in env');
-  }
-
-  const access_token = jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: '15m' });
-  const refresh_token = jwt.sign({ userId, email }, JWT_REFRESH_SECRET, { expiresIn: '7d' });
-
-  return { access_token, refresh_token };
-};
 
 export const signUp = createServerFn({ method: 'POST' })
   .validator(signUpSchema)
