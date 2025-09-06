@@ -6,11 +6,11 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router';
-import { getUserSession } from '@/vault/services/get-user-session';
+import { getUserSession } from 'vault/services/get-user-session';
 import appCss from '@/styles/app.css?url';
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import { checkUsersExist } from '@/vault/services/check-users-exist';
+import { checkUsersExist } from 'vault/services/check-users-exist';
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   beforeLoad: async ({ context }) => {

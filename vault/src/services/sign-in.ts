@@ -1,15 +1,15 @@
 // src/server/signIn.server.ts
 import { createServerFn } from '@tanstack/react-start';
-import { vaultDb as db } from 'vault/connection';
-import { users } from 'vault/schemas/auth';
+import { vaultDb as db } from '../../connection';
+import { users } from '../../schemas/auth';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
-import { generateTokens } from '@/vault/utils/jwt';
-import { setAuthCookies } from '@/vault/utils/cookies';
+import { generateTokens } from 'vault/utils/jwt';
+import { setAuthCookies } from 'vault/utils/cookies';
 import type { Response } from '@/types/response';
 import { HttpStatus } from '@/types/http-status';
-import type { User } from 'vault/schemas/auth';
+import type { User } from '../../schemas/auth';
 
 // Validation schema
 const signInSchema = z.object({

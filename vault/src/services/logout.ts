@@ -1,6 +1,6 @@
 // src/server/logout.server.ts
 import { createServerFn } from '@tanstack/react-start';
-import { clearAuthCookies } from '@/vault/utils/cookies';
+import { clearAuthCookies } from 'vault/utils/cookies';
 import type { BaseResponse } from '@/types/response';
 import { HttpStatus } from '@/types/http-status';
 

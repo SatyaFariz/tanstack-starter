@@ -15,7 +15,7 @@ export const Route = createFileRoute('/signup')({
 });
 import { useForm } from '@tanstack/react-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { signUp } from '@/vault/services/sign-up'; // Adjust path as needed
+import { signUp } from 'vault/services/sign-up'; // Adjust path as needed
 import TextField from '@/components/ui/field/textfield';
 import PasswordField from '@/components/ui/passwordfield';
 import Button from '@/components/ui/button';

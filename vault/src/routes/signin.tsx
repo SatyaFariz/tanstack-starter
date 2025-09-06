@@ -10,7 +10,7 @@ import Link from '@/components/ui/link';
 import { Mail, Lock } from 'lucide-react';
 import FieldDescription from '@/components/ui/field/field-description';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { signIn } from '@/vault/services/sign-in';
+import { signIn } from 'vault/services/sign-in';
 import { toastifyResponseMessages } from '@/utils/toast';
 
 // Email validation schema using Zod

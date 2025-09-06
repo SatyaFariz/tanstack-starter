@@ -1,11 +1,11 @@
 import { createServerFn } from '@tanstack/react-start';
-import { vaultDb as db } from 'vault/connection';
-import { users } from 'vault/schemas/auth';
+import { vaultDb as db } from '../../connection';
+import { users } from '../../schemas/auth';
 import { count } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import type { Response } from '@/types/response';
-import type { User } from 'vault/schemas/auth';
+import type { User } from '../../schemas/auth';
 import { HttpStatus } from '@/types/http-status';
 import { generateTokens } from '../utils/jwt';
 import { setAuthCookies } from '../utils/cookies';
