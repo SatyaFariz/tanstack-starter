@@ -24,14 +24,14 @@ function RouteComponent() {
     onSuccess: (data) => {
       console.log(data);
       // Handle success - check if user was automatically signed in (first user)
-      if('access_token' in data) {
-        // First user - redirect to dashboard
-        window.location.href = '/';
-      } else {
-        // Regular signup - show success message or redirect to login
-        // You might want to show a toast or redirect to login page
-        console.log('Account created successfully');
-      }
+      // if('access_token' in data) {
+      //   // First user - redirect to dashboard
+      //   window.location.href = '/';
+      // } else {
+      //   // Regular signup - show success message or redirect to login
+      //   // You might want to show a toast or redirect to login page
+      //   console.log('Account created successfully');
+      // }
     },
     onError: (error) => {
       console.error('Signup failed:', error);

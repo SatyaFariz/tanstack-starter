@@ -14,6 +14,9 @@ const signUpSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
+// Public user type
+export type PublicUser = Omit<User, 'password'>;
+
 // JWT utility
 const generateTokens = (userId: number, email: string) => {
   const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
@@ -31,19 +34,16 @@ const generateTokens = (userId: number, email: string) => {
 export const signUp = createServerFn({ method: 'POST' })
   .validator(signUpSchema)
   .handler(
-    async ({ data }): Promise<Response<User | null> | AuthResponse<User>> => {
+    async ({ data }): Promise<Response<PublicUser | null> | AuthResponse<PublicUser>> => {
       const { email, password } = data;
 
       try {
         const result = await db.transaction(async (tx) => {
-          // Count total users
           const userCount = await tx.select({ count: count() }).from(users);
           const isFirstUser = userCount[0]?.count === 0;
 
-          // Hash password
           const hashedPassword = await bcrypt.hash(password, 12);
 
-          // Insert user (let DB enforce unique email)
           const inserted = await tx
             .insert(users)
             .values({
@@ -52,12 +52,17 @@ export const signUp = createServerFn({ method: 'POST' })
               avatar: 'default',
               emailVerified: isFirstUser,
             })
-            .returning();
+            .returning({
+              id: users.id,
+              email: users.email,
+              avatar: users.avatar,
+              emailVerified: users.emailVerified,
+              createdAt: users.createdAt,
+              updatedAt: users.updatedAt,
+            });
 
-          const createdUser = inserted[0] as User | undefined;
-          if(!createdUser) {
-            throw new Error('User creation failed');
-          }
+          const createdUser = inserted[0] as PublicUser | undefined;
+          if(!createdUser) throw new Error('User creation failed');
 
           return { createdUser, isFirstUser };
         });
@@ -71,48 +76,31 @@ export const signUp = createServerFn({ method: 'POST' })
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
             messages: [
-              {
-                message:
-                  'Welcome! Account created and signed in successfully.',
-                type: 'success',
-              },
+              { message: 'Welcome! Account created and signed in successfully.', type: 'success' },
             ],
-          } satisfies AuthResponse<User>;
+          } satisfies AuthResponse<PublicUser>;
         }
 
         return {
           data: createdUser,
           messages: [
             {
-              message:
-                'Account created successfully. Please verify your email to sign in.',
+              message: 'Account created successfully. Please verify your email to sign in.',
               type: 'success',
             },
           ],
-        } satisfies Response<User>;
+        } satisfies Response<PublicUser>;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        // Handle unique constraint violation (duplicate email)
         if(err.message?.includes('UNIQUE') || err.code === 'SQLITE_CONSTRAINT') {
           return {
             data: null,
-            messages: [
-              {
-                message: 'User with this email already exists',
-                type: 'error',
-              },
-            ],
+            messages: [{ message: 'User with this email already exists', type: 'error' }],
           } satisfies Response<null>;
         }
         return {
           data: null,
-          messages: [
-            {
-              message:
-                'An error occurred while creating your account. Please try again.',
-              type: 'error',
-            },
-          ],
+          messages: [{ message: 'An error occurred while creating your account. Please try again.', type: 'error' }],
         } satisfies Response<null>;
       }
     },
