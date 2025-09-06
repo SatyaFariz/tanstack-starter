@@ -1,11 +1,12 @@
 import { createServerFn } from '@tanstack/react-start';
 import { vaultDb as db } from 'vault/connection';
 import { users } from 'vault/schemas/auth';
-import { count, eq } from 'drizzle-orm';
+import { count } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import type { Response, AuthResponse } from '@/types/response';
+import type { User } from 'vault/schemas/auth';
 
 // Validation schema
 const signUpSchema = z.object({
@@ -13,121 +14,109 @@ const signUpSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-// Define the user type based on the returned fields
-type CreatedUser = {
-  id: number;
-  email: string;
-  avatar: string;
-  emailVerified: boolean;
-  createdAt: number;
-  updatedAt: number;
-};
-
-// JWT utility functions
+// JWT utility
 const generateTokens = (userId: number, email: string) => {
   const JWT_SECRET = process.env.JWT_SECRET!;
   const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 
-  const access_token = jwt.sign(
-    { userId, email },
-    JWT_SECRET,
-    { expiresIn: '15m' },
-  );
+  const access_token = jwt.sign({ userId, email }, JWT_SECRET, {
+    expiresIn: '15m',
+  });
 
-  const refresh_token = jwt.sign(
-    { userId, email },
-    JWT_REFRESH_SECRET,
-    { expiresIn: '7d' },
-  );
+  const refresh_token = jwt.sign({ userId, email }, JWT_REFRESH_SECRET, {
+    expiresIn: '7d',
+  });
 
   return { access_token, refresh_token };
 };
 
 export const signUp = createServerFn({ method: 'POST' })
   .validator(signUpSchema)
-  .handler(async ({ data }): Promise<Response<CreatedUser | null> | AuthResponse<CreatedUser>> => {
-    try {
+  .handler(
+    async ({ data }): Promise<Response<User | null> | AuthResponse<User>> => {
       const { email, password } = data;
 
-      // Check if user already exists
-      const existingUser = await db
-        .select()
-        .from(users)
-        .where(eq(users.email, email))
-        .limit(1);
+      try {
+        const result = await db.transaction(async (tx) => {
+          // Count total users
+          const userCount = await tx.select({ count: count() }).from(users);
+          const isFirstUser = userCount[0]?.count === 0;
 
-      if(existingUser.length > 0) {
-        return {
-          data: null,
-          messages: [{
-            message: 'User with this email already exists',
-            type: 'error',
-          }],
-        } satisfies Response<null>;
-      }
+          // Hash password
+          const hashedPassword = await bcrypt.hash(password, 12);
 
-      // Check total user count to determine if this is the first user
-      const userCountResult = await db
-        .select({ count: count() })
-        .from(users);
+          // Insert user (let DB enforce unique email)
+          const inserted = await tx
+            .insert(users)
+            .values({
+              email,
+              password: hashedPassword,
+              avatar: 'default',
+              emailVerified: isFirstUser,
+            })
+            .returning();
 
-      const isFirstUser = userCountResult[0]?.count === 0;
+          const createdUser = inserted[0] as User | undefined;
+          if(!createdUser) {
+            throw new Error('User creation failed');
+          }
 
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 12);
-
-      // Create user
-      const newUser = await db
-        .insert(users)
-        .values({
-          email,
-          password: hashedPassword,
-          avatar: 'default', // Set default avatar since it's not in the input schema
-          emailVerified: isFirstUser, // First user gets auto-verified
-        })
-        .returning({
-          id: users.id,
-          email: users.email,
-          avatar: users.avatar,
-          emailVerified: users.emailVerified,
-          createdAt: users.createdAt,
-          updatedAt: users.updatedAt,
+          return { createdUser, isFirstUser };
         });
 
-      const createdUser = newUser[0] as CreatedUser | undefined;
+        const { createdUser, isFirstUser } = result;
 
-      // If first user, sign them in immediately
-      if(createdUser && isFirstUser) {
-        const tokens = generateTokens(createdUser.id, createdUser.email);
+        if(isFirstUser) {
+          const tokens = generateTokens(createdUser.id, createdUser.email);
+          return {
+            data: createdUser,
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
+            messages: [
+              {
+                message:
+                  'Welcome! Account created and signed in successfully.',
+                type: 'success',
+              },
+            ],
+          } satisfies AuthResponse<User>;
+        }
 
         return {
           data: createdUser,
-          access_token: tokens.access_token,
-          refresh_token: tokens.refresh_token,
-          messages: [{
-            message: 'Welcome! Account created and signed in successfully',
-            type: 'success',
-          }],
-        } satisfies AuthResponse<CreatedUser>;
+          messages: [
+            {
+              message:
+                'Account created successfully. Please verify your email to sign in.',
+              type: 'success',
+            },
+          ],
+        } satisfies Response<User>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        // Handle unique constraint violation (duplicate email)
+        if(err.message?.includes('UNIQUE') || err.code === 'SQLITE_CONSTRAINT') {
+          return {
+            data: null,
+            messages: [
+              {
+                message: 'User with this email already exists',
+                type: 'error',
+              },
+            ],
+          } satisfies Response<null>;
+        }
+
+        return {
+          data: null,
+          messages: [
+            {
+              message:
+                'An error occurred while creating your account. Please try again.',
+              type: 'error',
+            },
+          ],
+        } satisfies Response<null>;
       }
-
-      // Regular signup - just return created user
-      return {
-        data: createdUser!,
-        messages: [{
-          message: 'Account created successfully. Please verify your email to sign in.',
-          type: 'success',
-        }],
-      } satisfies Response<CreatedUser>;
-
-    } catch {
-
-      return {
-        data: null,
-        messages: [{
-          message: 'An error occurred while creating your account. Please try again.',
-          type: 'error',
-        }],
-      } satisfies Response<null>;
-    }
-  });
+    },
+  );
