@@ -1,14 +1,15 @@
-// src/db/index.ts - Database connections setup
-import { drizzle as drizzleSQLite } from 'drizzle-orm/bun-sqlite';
-import { Database } from 'bun:sqlite';
+/* eslint-disable no-console */
+// src/db/server-connection.ts - Universal database connection
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 import * as vaultSchema from './schemas';
 
-// SQLite connection for vault/secrets management
-const sqliteClient = new Database('./vault/data.db', {
-  create: true,
-  readwrite: true,
+// Universal SQLite connection using @libsql/client
+const sqliteClient = createClient({
+  url: 'file:./vault/data.db',
 });
-export const vaultDb = drizzleSQLite(sqliteClient, {
+
+export const vaultDb = drizzle(sqliteClient, {
   schema: vaultSchema,
 });
 
@@ -16,16 +17,13 @@ export const vaultDb = drizzleSQLite(sqliteClient, {
 export type VaultDb = typeof vaultDb;
 
 // Connection health check
-export async function checkConnections() {
+export async function checkServerConnection() {
   try {
-    vaultDb.run('SELECT 1');
-    // eslint-disable-next-line no-console
-    console.log('✅ SQLite vault connection successful');
-
+    await sqliteClient.execute('SELECT 1');
+    console.log('✅ Universal SQLite connection successful');
     return true;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('❌ Database connection failed:', error);
+    console.error('❌ Server database connection failed:', error);
     return false;
   }
 }
