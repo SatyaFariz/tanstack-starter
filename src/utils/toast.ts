@@ -1,7 +1,7 @@
-import type { Response } from '@/types/response';
+import type { BaseResponse } from '@/types/response';
 import toast from 'react-hot-toast';
 
-export function toastifyResponseMessages<T>(response: Response<T>) {
+export function toastifyResponseMessages(response: BaseResponse) {
   if(response.messages) {
     for(const message of response.messages) {
       toast[message.type](message.message, {
