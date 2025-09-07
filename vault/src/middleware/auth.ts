@@ -5,9 +5,9 @@ import { HttpStatus } from '@/types/http-status';
 
 export const requireAuth = createMiddleware({ type: 'function' })
   .server(async ({ next }) => {
-    const user = await getUserSession();
+    const userSession = await getUserSession();
 
-    if(!user) {
+    if(!userSession) {
       throw new Response(
         JSON.stringify({
           httpCode: HttpStatus.UNAUTHORIZED,
@@ -18,5 +18,5 @@ export const requireAuth = createMiddleware({ type: 'function' })
       );
     }
 
-    return next({ context: { user } });
+    return next({ context: { userSession } });
   });
