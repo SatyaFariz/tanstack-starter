@@ -8,6 +8,13 @@
       "when": 1757176282129,
       "tag": "0000_hard_kingpin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1757229896096,
+      "tag": "0001_square_azazel",
+      "breakpoints": true
     }
   ]
 }
