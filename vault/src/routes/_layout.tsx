@@ -1,4 +1,8 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import type { JwtPayload } from 'jsonwebtoken';
+import * as React from 'react';
+import type { Service } from 'vault/db/schemas';
+import { getServices } from 'vault/services/get-services'; // adjust path
 
 export const Route = createFileRoute('/_layout')({
   component: RouteComponent,
@@ -7,12 +11,18 @@ export const Route = createFileRoute('/_layout')({
       throw redirect({ to: context.usersExist ? '/signin' : '/signup' });
     }
 
-    return { userSession: context.userSession };
+    // ✅ fetch services during route load
+    const res = await getServices();
+    return { userSession: context.userSession, services: res.data };
   },
 });
 
 function RouteComponent() {
-  const { userSession } = Route.useRouteContext();
+  const { userSession, services } = Route.useRouteContext() as {
+    userSession: JwtPayload;
+    services: Service[];
+  };;
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -29,6 +39,30 @@ function RouteComponent() {
           <a href="/backend/users" className="block px-3 py-2 rounded hover:bg-gray-100">
             Users
           </a>
+
+          {/* Services menu */}
+          <div>
+            <button
+              onClick={() => setOpen(!open)}
+              className="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100 font-medium text-left"
+            >
+              Services
+              <span className="text-xs">{open ? '▲' : '▼'}</span>
+            </button>
+            {open && (
+              <div className="ml-4 mt-1 space-y-1">
+                {services.map((svc) => (
+                  <a
+                    key={svc.id}
+                    href={`/services/${svc.id}`}
+                    className="block px-3 py-2 rounded hover:bg-gray-100 text-sm text-gray-700"
+                  >
+                    {svc.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
       </aside>
 
