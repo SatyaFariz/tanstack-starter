@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutServicesIdRouteImport } from './routes/_layout/services/$id'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -33,16 +34,23 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutServicesIdRoute = LayoutServicesIdRouteImport.update({
+  id: '/services/$id',
+  path: '/services/$id',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/': typeof LayoutIndexRoute
+  '/services/$id': typeof LayoutServicesIdRoute
 }
 export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/': typeof LayoutIndexRoute
+  '/services/$id': typeof LayoutServicesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,13 +58,20 @@ export interface FileRoutesById {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/_layout/': typeof LayoutIndexRoute
+  '/_layout/services/$id': typeof LayoutServicesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/signin' | '/signup' | '/'
+  fullPaths: '/signin' | '/signup' | '/' | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/signin' | '/signup' | '/'
-  id: '__root__' | '/_layout' | '/signin' | '/signup' | '/_layout/'
+  to: '/signin' | '/signup' | '/' | '/services/$id'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/signin'
+    | '/signup'
+    | '/_layout/'
+    | '/_layout/services/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,15 +110,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/services/$id': {
+      id: '/_layout/services/$id'
+      path: '/services/$id'
+      fullPath: '/services/$id'
+      preLoaderRoute: typeof LayoutServicesIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutServicesIdRoute: typeof LayoutServicesIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutServicesIdRoute: LayoutServicesIdRoute,
 }
 
 const LayoutRouteWithChildren =
