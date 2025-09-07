@@ -1,8 +1,9 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import type { JwtPayload } from 'jsonwebtoken';
 import * as React from 'react';
-import type { Service } from 'vault/db/schemas';
+import type { Service, Environment } from 'vault/db/schemas';
 import { getServices } from 'vault/services/get-services'; // adjust path
+import { getEnvironments } from 'vault/services/get-environments'; // new server fn
 
 export const Route = createFileRoute('/_layout')({
   component: RouteComponent,
@@ -11,18 +12,29 @@ export const Route = createFileRoute('/_layout')({
       throw redirect({ to: context.usersExist ? '/signin' : '/signup' });
     }
 
-    // ✅ fetch services during route load
-    const res = await getServices();
-    return { userSession: context.userSession, services: res.data };
+    // ✅ fetch services and environments during route load
+    const [svcRes, envRes] = await Promise.all([
+      getServices(),
+      getEnvironments(),
+    ]);
+
+    return {
+      userSession: context.userSession,
+      services: svcRes.data,
+      environments: envRes.data,
+    };
   },
 });
 
 function RouteComponent() {
-  const { userSession, services } = Route.useRouteContext() as {
+  const { userSession, services, environments } = Route.useRouteContext() as {
     userSession: JwtPayload;
     services: Service[];
-  };;
-  const [open, setOpen] = React.useState(false);
+    environments: Environment[];
+  };
+
+  const [openServices, setOpenServices] = React.useState(false);
+  const [openEnvs, setOpenEnvs] = React.useState(false);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -43,13 +55,13 @@ function RouteComponent() {
           {/* Services menu */}
           <div>
             <button
-              onClick={() => setOpen(!open)}
+              onClick={() => setOpenServices(!openServices)}
               className="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100 font-medium text-left"
             >
               Services
-              <span className="text-xs">{open ? '▲' : '▼'}</span>
+              <span className="text-xs">{openServices ? '▲' : '▼'}</span>
             </button>
-            {open && (
+            {openServices && (
               <div className="ml-4 mt-1 space-y-1">
                 {services.map((svc) => (
                   <a
@@ -58,6 +70,30 @@ function RouteComponent() {
                     className="block px-3 py-2 rounded hover:bg-gray-100 text-sm text-gray-700"
                   >
                     {svc.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Environments menu */}
+          <div>
+            <button
+              onClick={() => setOpenEnvs(!openEnvs)}
+              className="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100 font-medium text-left"
+            >
+              Environments
+              <span className="text-xs">{openEnvs ? '▲' : '▼'}</span>
+            </button>
+            {openEnvs && (
+              <div className="ml-4 mt-1 space-y-1">
+                {environments.map((env) => (
+                  <a
+                    key={env.id}
+                    href={`/environments/${env.id}`}
+                    className="block px-3 py-2 rounded hover:bg-gray-100 text-sm text-gray-700 capitalize"
+                  >
+                    {env.name}
                   </a>
                 ))}
               </div>
