@@ -2,17 +2,12 @@
 
 import Button from '@/components/ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { logout } from 'vault/services/logout';
 import { toastifyResponseMessages } from '@/utils/toast';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_layout/')({
   component: RouteComponent,
-  beforeLoad: async ({ context }) => {
-    if(!context.userSession) {
-      throw redirect({ to: context.usersExist ? '/signin' : '/signup' });
-    }
-  },
 });
 
 function RouteComponent() {
